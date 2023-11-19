@@ -1,9 +1,10 @@
 import pygame
-
+from entity_manager import entityManager
 import actor
 
 width = 1240
 height = 720
+FPS = 120
 
 green = (0,255,0)
 black = (0,0,0)
@@ -11,14 +12,15 @@ black = (0,0,0)
 class Game:
     def __init__(self, width, height):
         pygame.init()
+        self.entityManager = entityManager()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((width, height))
         pygame.event.set_allowed([
             pygame.QUIT,
             pygame.KEYDOWN
         ])
-
-        self.player = actor.Player(green,250,250,150,50)
+        self.player = actor.Player(green,250,250,100,100)
+        self.entityManager.addEntity(self.player,"Player")
 
     def loop(self):
         while True:
@@ -26,11 +28,11 @@ class Game:
                 if event.type == pygame.QUIT:
                     return
             self.screen.fill("black")
-            self.player.render(self.screen)
+            self.entityManager.renderAll(self.screen)
+            self.entityManager.updateAll()
             self.player.processInput(pygame.key.get_pressed())
-            self.player.update()
             pygame.display.flip()
-            self.clock.tick(60)
+            self.clock.tick(FPS)
 
 
 if __name__ == "__main__":

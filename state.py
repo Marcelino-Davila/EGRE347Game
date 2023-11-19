@@ -9,39 +9,46 @@ class PlayerState:
     
     def update(self):
         pass
-    
-class StandingState(PlayerState):
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.parent.kinem.vel_x = 0
-        self.parent.kinem.vel_y = 0
-        print("standing")
-
-    def processInput(self, pressed):
-        if pressed[keys.K_a]:
-            return moving(self.parent,x=-10)
-        if pressed[keys.K_d]:
-            return moving(self.parent,x=10)
-        if pressed[keys.K_w]:
-            return moving(self.parent,y=-10)
-        if pressed[keys.K_s]:
-            return moving(self.parent,y=10)
 
 class moving(PlayerState):
     def __init__(self, parent,x=0,y=0):
         super().__init__(parent)
         self.parent.kinem.vel_x = x
         self.parent.kinem.vel_y = y
-        print("moving")
+        self.w = True
+        self.a = True
+        self.s = True
+        self.d = True
 
     def processInput(self, pressed):
-        if pressed[keys.K_a]:
-            self.parent.kinem.vel_x = -10
-        if pressed[keys.K_d]:
-            self.parent.kinem.vel_x = 10
-        if pressed[keys.K_w]:
-            self.parent.kinem.vel_y = -10
-        if pressed[keys.K_s]:
-            self.parent.kinem.vel_y = 10
+        xspeed = 0
+        yspeed = 0
+        if pressed[keys.K_SPACE]:
+            self.parent.gun()
+        if pressed[keys.K_w] and self.w == True:
+            yspeed -=10
+            self.w = False
         else:
-            return StandingState(self.parent)
+            yspeed +=10 
+            self.w = True
+        if pressed[keys.K_a] and self.a == True:
+            xspeed -=10
+            self.a = False
+        else: 
+            xspeed +=10
+            self.a = True
+        if pressed[keys.K_s] and self.s == True:
+            yspeed +=10
+            self.s = False
+        else: 
+            yspeed -=10
+            self.s = True
+        if pressed[keys.K_d] and self.d == True:
+            xspeed +=10
+            self.d = False
+        else: 
+            xspeed -=10
+            self.d = True
+        self.parent.kinem.vel_x = xspeed
+        self.parent.kinem.vel_y = yspeed
+        
