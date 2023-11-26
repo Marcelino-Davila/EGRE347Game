@@ -1,0 +1,18 @@
+
+[
+    {
+        "Name":"TestLevel",
+        "Image":"Levels/Images/TestLevel.jpg",
+        "Height": 1024,
+        "Width": 1024
+    },
+
+    {
+        "Name":"NotTestLevel",
+        "Image":"None",
+        "Height": "None",
+        "Width": "None"
+    }
+
+]
+    
