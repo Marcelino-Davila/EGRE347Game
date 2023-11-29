@@ -1,8 +1,7 @@
 import pygame
 
-height = 1240
-width = 720
-
+height = 720
+width = 1240
 White = (255, 255, 255)     
 
 class MenuState:
