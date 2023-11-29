@@ -1,4 +1,5 @@
 import pygame.locals as keys
+from InterfaceManager import MenuState
 
 class PlayerState:
     def __init__(self, parent):
@@ -19,6 +20,7 @@ class moving(PlayerState):
         self.a = True
         self.s = True
         self.d = True
+        self.esc = False
 
     def processInput(self, pressed):
         xspeed = 0
@@ -49,6 +51,12 @@ class moving(PlayerState):
         else: 
             xspeed -=10
             self.d = True
+        if pressed[keys.K_ESCAPE] and not self.esc:
+            self.esc = True
+            MenuState.ScreenOverlay()
+        if not pressed[keys.K_ESCAPE]:
+            self.esc = False
+
         self.parent.kinem.vel_x = xspeed
         self.parent.kinem.vel_y = yspeed
         
