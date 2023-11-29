@@ -1,7 +1,7 @@
 import pygame
 
-height = 900
-width = 900
+height = 1240
+width = 720
 
 White = (255, 255, 255)     
 
