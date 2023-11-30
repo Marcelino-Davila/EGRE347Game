@@ -27,16 +27,13 @@ class Kinematics:
         self.parent.rect.y = self.old_y
 
 class actor(pygame.sprite.Sprite):
-    
-    def __init__(self, color, x, y, width, height,weapon=0):
+    def __init__(self,x, y, width, height):
         super().__init__()
-        self.anim = Animator(color,x,y,width,height)
         self.rect = pygame.Rect(
             x,y,width, height
         )
         self.kinem = Kinematics(self)
         self.state = state.moving(self)
-        self.weapon = weapon
 
     def update(self):
         self.kinem.updateX()
@@ -47,8 +44,10 @@ class actor(pygame.sprite.Sprite):
         pass
 
 class Player(actor):
-    def __init__(self,color,x,y,width,height):
-        super().__init__(color,x,y,width,height)
+    def __init__(self,x,y,width,height,image):
+        super().__init__(x,y,width,height)
+        self.image = image
+        self.anim = Animator(self.image,x,y)
         self.friendlyBulltes = []
     
     def delgateToState(self, method, *args):
@@ -67,14 +66,11 @@ class Player(actor):
             bullet.update()
 
     def gun(self):
-        self.friendlyBulltes.append(projectile((255,0,0),self.rect.x,self.rect.y,50,10))
+        self.friendlyBulltes.append(projectile(self.rect.x,self.rect.y))
 
     def render(self,screen):
-        x,y = pygame.mouse.get_pos()
         x_center,y_center = self.rect.center
-        angle = math.atan2(x-x_center,y-y_center)*180/3.14
-        img, rect = self.anim.rotate(angle)
-        screen.blit(img,self.rect) 
+        self.image.render(screen,x_center,y_center,self.rect)
         for bullet in self.friendlyBulltes:
             bullet.render(screen)
     
