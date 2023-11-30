@@ -1,14 +1,13 @@
 import pygame
 from entity_manager import entityManager
-import actor
+import PlayerClass
 from LevelManager import MapInformation
 
+MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
 
-MapName, MapImagePath = MapInformation()
-
-width = 1240
-height = 720
-FPS = 120
+width = MapWidth
+height = MapHeight
+FPS = 240
 
 green = (0,255,0)
 black = (0,0,0)
@@ -23,7 +22,7 @@ class Game:
             pygame.QUIT,
             pygame.KEYDOWN
         ])
-        self.player = actor.Player(green,250,250,100,100)
+        self.player = PlayerClass.Gojira(250,250)
         self.entityManager.addEntity(self.player,"Player")
         self.MapImage = pygame.image.load(MapImagePath)
         
@@ -40,7 +39,6 @@ class Game:
             self.player.processInput(pygame.key.get_pressed())
             pygame.display.flip()
             self.clock.tick(FPS)
-            
 
 
 if __name__ == "__main__":
