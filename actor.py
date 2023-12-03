@@ -65,12 +65,15 @@ class Player(actor):
         for bullet in self.friendlyBulltes:
             bullet.update()
 
-    def gun(self):
-        self.friendlyBulltes.append(projectile(self.rect.x,self.rect.y))
+    def processMouse(self,mouse):
+        left,right,middle = mouse
+        if left:
+            return projectile(self.rect.x,self.rect.y)
 
-    def render(self,screen):
-        x_center,y_center = self.rect.center
-        self.image.render(screen,x_center,y_center,self.rect)
-        for bullet in self.friendlyBulltes:
-            bullet.render(screen)
+class coliders(pygame.sprite.Sprite):
+    def __init__(self,x,y,width,height):
+        super().__init()
+        self.rect = pygame.Rect(
+            x,y,width,height
+        )
     

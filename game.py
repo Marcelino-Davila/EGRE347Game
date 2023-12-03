@@ -1,6 +1,7 @@
 import pygame
 from entity_manager import entityManager
 import PlayerClass
+import enemies
 from LevelManager import MapInformation
 
 MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
@@ -15,6 +16,8 @@ black = (0,0,0)
 class Game:
     def __init__(self, width, height, MapImagePath):
         pygame.init()
+        self.selectedClass=0 #selecting level and class from main menu then run entitnymanager.loadlevel()
+        self.selectedLevel=0 
         self.entityManager = entityManager()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((width, height))
@@ -23,6 +26,7 @@ class Game:
             pygame.KEYDOWN
         ])
         self.player = PlayerClass.Gojira(250,250)
+        self.enemy = enemies.enemies(200,200)
         self.entityManager.addEntity(self.player,"Player")
         self.MapImage = pygame.image.load(MapImagePath)
         
