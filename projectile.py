@@ -3,7 +3,7 @@ import math
 from anim import Animator
 import actor
 
-speed = 50
+speed =10
 class projectileImage:
     def __init__(self):
         self.image = pygame.Surface((10,5))
@@ -17,13 +17,15 @@ class projectileImage:
 
 baseProjectile = projectileImage()
 
-class projectile(pygame.sprite.Sprite): 
+class projectile(pygame.sprite.Sprite): #fix this later to pass in angle instead of calculate angle when created 
     def __init__(self,x,y):
         super().__init__()
         self.delete = False
         self.image = baseProjectile
         self.anim = Animator(baseProjectile.image,x+25,y+25)
-        self.rect = self.image.image.get_rect()
+        self.rect = pygame.Rect(
+            x+25,y+25,15,10
+        )
         x_mouse,y_mouse = pygame.mouse.get_pos()
         self.angle = math.atan2(x_mouse-x,y_mouse-y)
         self.kinem = actor.Kinematics(self)
@@ -37,11 +39,8 @@ class projectile(pygame.sprite.Sprite):
         self.y = self.y + self.kinem.vel_y
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
-        if self.rect.x < 0 or self.rect.y < 0 or self.rect.x > 9000 or self.rect.y > 9000:
+        if self.rect.x < 0 or self.rect.y < 0 or self.rect.x > 90000 or self.rect.y > 90000:
             self.delete = True
     
     def render(self,screen):
         self.image.render(screen,self.rect,self.angle)
-    
-    def destroy(self):
-        self.kill()
