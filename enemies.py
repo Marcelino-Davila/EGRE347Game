@@ -23,11 +23,14 @@ patrollPattern.append((500,600))
 patrollPattern.append((200,600))
 
 class enemies(actor):
-    def __init__(self,x,y):
+    def __init__(self,x,y,player):
         super().__init__(x,y,50,50)
         self.rect = pygame.Rect(
             x,y,50,50
         )
+        self.health = 100
+        self.alert = False
+        self.player = player
         self.image = baseEnemy.image
         self.anim = Animator(self.image,x,y)
         self.friendlyBulltes = []
@@ -40,6 +43,13 @@ class enemies(actor):
         new_state = method(*args)
         if new_state:
             self.state = new_state
+
+    def collisionBullet(self):
+        self.health-=1
+        if self.health < 0:
+            return True
+        else:
+            return False
 
     def update(self):
         self.kinem.updateX()
@@ -65,17 +75,15 @@ class patrolling(enemyState):
         self.targetx, self.targety = self.target
         
     def update(self):
-        if self.parent.rect.x == self.targetx and self.parent.rect.y == self.targety:
+        if (self.targetx-2 <= self.parent.rect.x <= self.targetx+2) and (self.targety-2 <= self.parent.rect.y <= self.targety+2):
             self.changeTarget()
-        print(self.target)
         self.angle = math.atan2(self.targetx-self.parent.rect.x,self.targety-self.parent.rect.y)
         self.parent.kinem.vel_y = enemySpeed*math.cos(self.angle)
         self.parent.kinem.vel_x = enemySpeed*math.sin(self.angle)
         self.parent.rect.x = self.parent.rect.x + self.parent.kinem.vel_x
         self.parent.rect.y = self.parent.rect.y + self.parent.kinem.vel_y
-        print(self.parent.kinem.vel_x,self.parent.kinem.vel_y)
-        #self.rect.x = int(self.x)
-        #self.rect.y = int(self.y)
+        if self.parent.alert:
+            return alerted(self.parent)
 
     def changeTarget(self):
         if self.patrollCount == self.numPatorl-1:
@@ -84,6 +92,19 @@ class patrolling(enemyState):
         self.target = self.patroll[self.patrollCount]
         self.targetx, self.targety = self.target
 
-
 class alerted(enemyState):
-    pass
+    def __init__(self,parent):
+        super().__init__(parent,(parent.player.rect.x,parent.player.rect.y))
+        self.target = (parent.player.rect.x,parent.player.rect.y)
+        self.targetx, self.targety = self.target
+    
+    def update(self):
+        if not self.parent.alert:
+            return patrolling(self.parent)
+        self.angle = math.atan2(self.targetx-self.parent.rect.x,self.targety-self.parent.rect.y)
+        self.parent.kinem.vel_y = enemySpeed*math.cos(self.angle)
+        self.parent.kinem.vel_x = enemySpeed*math.sin(self.angle)
+        self.parent.rect.x = self.parent.rect.x + self.parent.kinem.vel_x
+        self.parent.rect.y = self.parent.rect.y + self.parent.kinem.vel_y
+        self.target = (self.parent.player.rect.x,self.parent.player.rect.y)
+        self.targetx, self.targety = self.target
