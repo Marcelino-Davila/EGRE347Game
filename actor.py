@@ -76,4 +76,11 @@ class coliders(pygame.sprite.Sprite):
         self.rect = pygame.Rect(
             x,y,width,height
         )
-    
+        self.image = pygame.Surface((width,height))
+        self.image.fill((50,50,50))
+
+    def update(self):
+        pass 
+
+    def render(self,screen):
+        screen.blit(self.image,self.rect)
