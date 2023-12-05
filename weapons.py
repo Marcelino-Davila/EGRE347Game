@@ -1,7 +1,11 @@
 import pygame
 from actor import Player
+from projectile import projectile
 
 pygame.init()
+
+weapon_list = ["rifle", "shotgun", "pistol", "lmg", "cyber-stick", "heavy machine gun", "wand", "knife"]
+#                 0         1         2        3          4                 5              6       7
 
 ammo_dict = {
     "rifle" : 30,
@@ -20,9 +24,32 @@ range_dict = {
     "long" : 800
 }
 
-class WeaponLoad:
+damage_dict = {
+    "rifle" : 15,
+    "shotgun" : 7,
+    "pistol" : 2,
+    "lmg" : 3,
+    "cyber-stick" : 100,
+    "heavy machine gun" : 5,
+    "wand" : 50,
+    "knife" : 100
+}
+
+fireRate_dict = { # x is a placeholder variable, it holds no value
+    "rifle" : x,
+    "shotgun" : x,
+    "pistol" : x,
+    "lmg" : x,
+    "cyber-stick" : x,
+    "heavy machine gun" : x,
+    "wand" : x,
+
+}
+
+class WeaponImage:
     def __init__(self, image):
         self.image = pygame.image.load(image)
+        return self.image
 
 class Weapon:
     def __init__(self, player, weapon, damage, image, ammoCount, ammoLoss, fireRate, bulletRange):
@@ -35,21 +62,28 @@ class Weapon:
         self.fireRate = fireRate
         self.bulletRange = bulletRange
         self.count = 0
+        self.canFire = True
 
-    def use(self):
-        
-        return bullet
+    def use(self, x, y, angle):
+        if self.canFire:
+            self.canFire = False
+            self.count = 0
+            return True, projectile(x, y, angle)
+        return False
     
     def render(self):
         pass
     
     def update(self):
-        fireRate += 1
+        count += 1
+        if self.count > fireRate:
+            self.canFire = True
 
 class WeaponFactory:
     def build(self, player, weapon, damage, image, ammo, fireRate, bulletRange):
         wpn = Weapon(player, weapon, damage, image, ammo, fireRate, bulletRange)
         return wpn
 
+rifle_image = WeaponImage("rifle.png")
 rifle = WeaponFactory()
-rifle.build("player", "rifle", "rifle.png", 30, 15, medium)
+rifle.build("player", weapon_list[0], damage_dict["rifle"], rifle_image, ammo_dict["rifle"], fireRate_dict["rifle"], range_dict["rifle"])
