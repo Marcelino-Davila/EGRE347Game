@@ -19,8 +19,12 @@ def MapInformation():
            
            print("Image:", Level["Image"])
            MapImagePath = Level["Image"]
+           
+           MapHeight = Level["Height"]
+           
+           MapWidth = Level["Width"]
         
-        return MapName, MapImagePath
+        return MapName, MapImagePath, MapHeight, MapWidth
         
         
 

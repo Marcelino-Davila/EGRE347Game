@@ -36,13 +36,13 @@ damage_dict = {
 }
 
 fireRate_dict = { # x is a placeholder variable, it holds no value
-    "rifle" : x,
-    "shotgun" : x,
-    "pistol" : x,
-    "lmg" : x,
-    "cyber-stick" : x,
-    "heavy machine gun" : x,
-    "wand" : x,
+    "rifle" : 1,
+    "shotgun" : 1,
+    "pistol" : 1,
+    "lmg" : 1,
+    "cyber-stick" : 1,
+    "heavy machine gun" : 1,
+    "wand" : 1,
 
 }
 
@@ -76,7 +76,7 @@ class Weapon:
     
     def update(self):
         count += 1
-        if self.count > fireRate:
+        if self.count > self.fireRate:
             self.canFire = True
 
 class WeaponFactory:

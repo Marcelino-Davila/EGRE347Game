@@ -17,17 +17,16 @@ class projectileImage:
 
 baseProjectile = projectileImage()
 
-class projectile(pygame.sprite.Sprite): #fix this later to pass in angle instead of calculate angle when created 
-    def __init__(self,x,y):
+class projectile(pygame.sprite.Sprite):
+    def __init__(self,x,y,angle):
         super().__init__()
         self.delete = False
+        self.angle = angle
         self.image = baseProjectile
         self.anim = Animator(baseProjectile.image,x+25,y+25)
         self.rect = pygame.Rect(
             x+25,y+25,15,10
         )
-        x_mouse,y_mouse = pygame.mouse.get_pos()
-        self.angle = math.atan2(x_mouse-x,y_mouse-y)
         self.kinem = actor.Kinematics(self)
         self.kinem.vel_x = -speed*math.cos(self.angle+(3.14/2))
         self.kinem.vel_y = speed*math.sin(self.angle+(3.14/2))

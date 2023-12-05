@@ -1,6 +1,6 @@
 import pygame
 from actor import Player
-import weapons
+#import weapons
 import math
 
 class playerDetection:
@@ -32,13 +32,14 @@ soldierStats["health"] = 100
 soldierStats["speed"] = 5
 soldierStats["damage"] = 10
 soldierStats["detectRange"] = 300
+soldierStats["accuracy"] = .5 #between 1 and 0 lower is more accurate
 
 class soldier(Player):
     def __init__(self,x,y):
         super().__init__(x,y,baseSoldier,soldierStats)
         self.health = 100
         self.speed = 10
-        self.weapon = weapons.rifle()
+        #self.weapon = weapons.rifle()
         self.image = baseSoldier
         self.detectRange =playerDetection(self.rect.x+125,self.rect.y+125,soldierStats["detectRange"])
 
@@ -71,7 +72,7 @@ GojiraStats["damage"] = 20
 class Gojira(Player):
     def __init__(self,x,y):
         super().__init__(x,y,baseGojira,GojiraStats)
-        self.weapon = weapons.rifle()
+        #self.weapon = weapons.rifle()
         self.image = GojiraImage()
 
     def __del__(self):

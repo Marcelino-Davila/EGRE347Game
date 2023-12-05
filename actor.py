@@ -1,6 +1,7 @@
 import pygame
 import math
 import state
+import random
 from anim import Animator
 from projectile import projectile
 
@@ -33,22 +34,23 @@ class actor(pygame.sprite.Sprite):
             x,y,width, height
         )
         self.kinem = Kinematics(self)
-        self.state = state.moving(self)
 
     def update(self):
         self.kinem.updateX()
-        self.kinem.updateY()
-        
+        self.kinem.updateY() 
     
     def destroy(self):
         pass
 
 class Player(actor):
-    def __init__(self,x,y,width,height,image):
-        super().__init__(x,y,width,height)
-        self.image = image
+    def __init__(self,x,y,image,stats):
+        super().__init__(x,y,image.width,image.height)
+        self.image = image.image
         self.anim = Animator(self.image,x,y)
         self.friendlyBulltes = []
+        self.state = state.moving(self,stats["speed"])
+        self.accuracy = stats["accuracy"]
+
     
     def delgateToState(self, method, *args):
         new_state = method(*args)
@@ -62,17 +64,18 @@ class Player(actor):
         self.kinem.updateX()
         self.kinem.updateY()
         self.delgateToState(self.state.update)
-        for bullet in self.friendlyBulltes:
-            bullet.update()
 
     def processMouse(self,mouse):
         left,right,middle = mouse
         if left:
-            return projectile(self.rect.x,self.rect.y)
+            x_mouse, y_mouse = pygame.mouse.get_pos()
+            recoil = (random.randrange(-100,100)/100)*0.261799*self.accuracy
+            angle = math.atan2(x_mouse-self.rect.x+25,y_mouse-self.rect.y+25) + recoil
+            return projectile(self.rect.x,self.rect.y,angle)
 
 class coliders(pygame.sprite.Sprite):
-    def __init__(self,x,y,width,height):
-        super().__init()
+    def __init__(self,x=0,y=0,width=0,height=0):
+        super().__init__()
         self.rect = pygame.Rect(
             x,y,width,height
         )

@@ -2,12 +2,17 @@
 [
     {
         "Name":"TestLevel",
-        "Image":"Levels/Images/TestLevel.jpg"
+        "Image":"Levels/Images/TestLevel.jpg",
+        "Height": 1024,
+        "Width": 1024,
+        "wall" : ["make dictionary with walls"] 
     },
 
     {
         "Name":"NotTestLevel",
-        "Image":"None"
+        "Image":"None",
+        "Height": "None",
+        "Width": "None"
     }
 
 ]
