@@ -38,8 +38,9 @@ class projectile(pygame.sprite.Sprite):
         self.y = self.y + self.kinem.vel_y
         self.rect.x = int(self.x)
         self.rect.y = int(self.y)
-        if self.rect.x < 0 or self.rect.y < 0 or self.rect.x > 90000 or self.rect.y > 90000:
+        if self.rect.x < 0 or self.rect.y < 0 or self.rect.x > 9000 or self.rect.y > 9000:
             self.delete = True
     
     def render(self,screen):
         self.image.render(screen,self.rect,self.angle)
+    

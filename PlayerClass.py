@@ -28,8 +28,8 @@ class soldierImage:
 baseSoldier = soldierImage()
 
 soldierStats = dict()
-soldierStats["health"] = 100
-soldierStats["speed"] = 5
+soldierStats["health"] = 10000
+soldierStats["speed"] = 2
 soldierStats["damage"] = 10
 soldierStats["detectRange"] = 300
 soldierStats["accuracy"] = .5 #between 1 and 0 lower is more accurate
@@ -37,17 +37,26 @@ soldierStats["accuracy"] = .5 #between 1 and 0 lower is more accurate
 class soldier(Player):
     def __init__(self,x,y):
         super().__init__(x,y,baseSoldier,soldierStats)
-        self.health = 100
-        self.speed = 10
+        self.grenadeCD = 0
+        self.health = soldierStats["health"]
+        self.speed = soldierStats["speed"]
         #self.weapon = weapons.rifle()
         self.image = baseSoldier
         self.detectRange =playerDetection(self.rect.x+125,self.rect.y+125,soldierStats["detectRange"])
+        self.WallCollide = True
+        self.grenadeCoord = (0,0)
+        self.jump = False
 
     def render(self,screen):
+        self.grenadeCD+=1
         self.detectRange.rect.x = self.rect.x-125
         self.detectRange.rect.y = self.rect.y-125
-        screen.blit(self.detectRange.image,self.detectRange.rect)
+        #screen.blit(self.detectRange.image,self.detectRange.rect)
         self.image.render(screen,self.rect.centerx,self.rect.centery,self.rect)
+
+    def rocketJump(self,explode):
+        self.jump = True
+        self.grenadeCoord = explode
 
 class GojiraImage:
     def __init__(self):

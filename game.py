@@ -9,7 +9,7 @@ MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
 
 width = MapWidth
 height = MapHeight
-FPS = 120
+FPS = 240
 
 green = (0,255,0)
 black = (0,0,0)

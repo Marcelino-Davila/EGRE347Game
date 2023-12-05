@@ -2,6 +2,7 @@ import pygame
 from actor import actor
 from anim import Animator
 import math
+import projectile
 
 class enemyImage():
     def __init__(self):
@@ -28,6 +29,7 @@ class enemies(actor):
         self.rect = pygame.Rect(
             x,y,50,50
         )
+        self.angle = 0
         self.health = 100
         self.alert = False
         self.player = player
@@ -55,6 +57,16 @@ class enemies(actor):
         self.kinem.updateX()
         self.kinem.updateY()
         self.delgateToState(self.state.update)
+
+    def gun(self):
+        return projectile.projectile(self.rect.x,self.rect.y,self.angle)
+    
+    def explode(self):
+        self.health-=5
+        if self.health < 0:
+            return True
+        else:
+            return False
 
 class enemyState:
     def __init__(self, parent,target):
@@ -102,6 +114,7 @@ class alerted(enemyState):
         if not self.parent.alert:
             return patrolling(self.parent)
         self.angle = math.atan2(self.targetx-self.parent.rect.x,self.targety-self.parent.rect.y)
+        self.parent.angle = self.angle
         self.parent.kinem.vel_y = enemySpeed*math.cos(self.angle)
         self.parent.kinem.vel_x = enemySpeed*math.sin(self.angle)
         self.parent.rect.x = self.parent.rect.x + self.parent.kinem.vel_x

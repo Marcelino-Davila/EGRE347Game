@@ -1,4 +1,5 @@
 import pygame.locals as keys
+import math
 from InterfaceManager import MenuState
 
 class PlayerState:
@@ -14,18 +15,18 @@ class PlayerState:
 class moving(PlayerState):
     def __init__(self, parent,speed):
         super().__init__(parent)
+        self.parent.wallCollide = True
         self.speed = speed
         self.w = True
         self.a = True
         self.s = True
         self.d = True
+        self.e = True
         self.esc = False
 
     def processInput(self, pressed):
         xspeed = 0
         yspeed = 0
-        if pressed[keys.K_SPACE]:
-            self.parent.gun()
         if pressed[keys.K_w] and self.w == True:
             yspeed -=self.speed
             self.w = False
@@ -56,5 +57,39 @@ class moving(PlayerState):
             Menu_State.ScreenOverlay()
         if not pressed[keys.K_ESCAPE]:
             self.esc = False
+        if pressed[keys.K_e] and self.e == True:
+            self.parent.ability = True
+            self.e = False
+        else:
+            self.parent.ability = False
+            self.e = True
+        if self.parent.jump:
+            return rocketJump(self.parent,self.speed)
         self.parent.kinem.vel_x = xspeed
         self.parent.kinem.vel_y = yspeed
+
+    def update(self):
+        if self.parent.rocketJump == True:
+            return rocketJump(self.parent,self.speed)
+
+
+class rocketJump(PlayerState):
+    def __init__(self,parent,speed):
+        super().__init__(parent)
+        self.parent.WallCollide = False
+        self.count = 0
+        self.speed = speed
+        x,y = self.parent.grenadeCoord
+        x+=30
+        y+=30
+        self.angle = math.atan2(x-self.parent.rect.x+25,y-self.parent.rect.y+25)
+        self.parent.kinem.vel_y = 2*math.cos(self.angle)
+        self.parent.kinem.vel_x = -2*math.sin(self.angle)
+    
+    def update(self):
+        self.count+=1
+        if self.count > 100:
+            self.parent.jump = False
+
+        if not self.parent.jump:
+            return moving(self.parent,self.speed)

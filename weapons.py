@@ -80,6 +80,8 @@ class Weapon:
             self.canFire = True
 
 class WeaponFactory:
+    def __init__(self):
+        self.shit = 0
     def build(self, player, weapon, damage, image, ammo, fireRate, bulletRange):
         wpn = Weapon(player, weapon, damage, image, ammo, fireRate, bulletRange)
         return wpn

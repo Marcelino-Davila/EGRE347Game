@@ -4,6 +4,7 @@ import state
 import random
 from anim import Animator
 from projectile import projectile
+import soldierGrenade
 
 class Kinematics:
     def __init__(self, parent):
@@ -38,9 +39,6 @@ class actor(pygame.sprite.Sprite):
     def update(self):
         self.kinem.updateX()
         self.kinem.updateY() 
-    
-    def destroy(self):
-        pass
 
 class Player(actor):
     def __init__(self,x,y,image,stats):
@@ -50,8 +48,8 @@ class Player(actor):
         self.friendlyBulltes = []
         self.state = state.moving(self,stats["speed"])
         self.accuracy = stats["accuracy"]
+        self.ability = False
 
-    
     def delgateToState(self, method, *args):
         new_state = method(*args)
         if new_state:
@@ -64,6 +62,7 @@ class Player(actor):
         self.kinem.updateX()
         self.kinem.updateY()
         self.delgateToState(self.state.update)
+        self.classAbility()
 
     def processMouse(self,mouse):
         left,right,middle = mouse
@@ -72,6 +71,16 @@ class Player(actor):
             recoil = (random.randrange(-100,100)/100)*0.261799*self.accuracy
             angle = math.atan2(x_mouse-self.rect.x+25,y_mouse-self.rect.y+25) + recoil
             return projectile(self.rect.x,self.rect.y,angle)
+        
+    def collisionBullet(self):
+        self.health-=1
+        if self.health < 0:
+            return True
+        else:
+            return False
+    
+    def classAbility(self):
+        return soldierGrenade.grenade(self,self.rect.x,self.rect.y)  
 
 class coliders(pygame.sprite.Sprite):
     def __init__(self,x=0,y=0,width=0,height=0):
