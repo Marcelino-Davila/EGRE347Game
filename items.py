@@ -3,6 +3,17 @@ from actor import Player
 
 pygame.init()
 
+powerup_dict = { # x is a placeholder variable, it holds no value
+    "meth" : x,
+    "shrooms" : x,
+    "pain-killers" : x,
+    "cocaine" : x,
+    "weed" : x,
+    "adderall" : x
+}
+
+stats_list = [damage, move_speed, accuracy, hp]
+
 class ItemImage:
     def __init__(self, image):
         self.image = pygame.image.load(image)

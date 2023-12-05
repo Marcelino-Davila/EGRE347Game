@@ -1,6 +1,7 @@
 import pygame
 import math
 import state
+import random
 from anim import Animator
 from projectile import projectile
 
@@ -27,29 +28,29 @@ class Kinematics:
         self.parent.rect.y = self.old_y
 
 class actor(pygame.sprite.Sprite):
-    
-    def __init__(self, color, x, y, width, height,weapon=0):
+    def __init__(self,x, y, width, height):
         super().__init__()
-        self.anim = Animator(color,x,y,width,height)
         self.rect = pygame.Rect(
             x,y,width, height
         )
         self.kinem = Kinematics(self)
-        self.state = state.moving(self)
-        self.weapon = weapon
 
     def update(self):
         self.kinem.updateX()
-        self.kinem.updateY()
-        
+        self.kinem.updateY() 
     
     def destroy(self):
         pass
 
 class Player(actor):
-    def __init__(self,color,x,y,width,height):
-        super().__init__(color,x,y,width,height)
+    def __init__(self,x,y,image,stats):
+        super().__init__(x,y,image.width,image.height)
+        self.image = image.image
+        self.anim = Animator(self.image,x,y)
         self.friendlyBulltes = []
+        self.state = state.moving(self,stats["speed"])
+        self.accuracy = stats["accuracy"]
+
     
     def delgateToState(self, method, *args):
         new_state = method(*args)
@@ -63,18 +64,26 @@ class Player(actor):
         self.kinem.updateX()
         self.kinem.updateY()
         self.delgateToState(self.state.update)
-        for bullet in self.friendlyBulltes:
-            bullet.update()
 
-    def gun(self):
-        self.friendlyBulltes.append(projectile((255,0,0),self.rect.x,self.rect.y,50,10))
+    def processMouse(self,mouse):
+        left,right,middle = mouse
+        if left:
+            x_mouse, y_mouse = pygame.mouse.get_pos()
+            recoil = (random.randrange(-100,100)/100)*0.261799*self.accuracy
+            angle = math.atan2(x_mouse-self.rect.x+25,y_mouse-self.rect.y+25) + recoil
+            return projectile(self.rect.x,self.rect.y,angle)
+
+class coliders(pygame.sprite.Sprite):
+    def __init__(self,x=0,y=0,width=0,height=0):
+        super().__init__()
+        self.rect = pygame.Rect(
+            x,y,width,height
+        )
+        self.image = pygame.Surface((width,height))
+        self.image.fill((50,50,50))
+
+    def update(self):
+        pass 
 
     def render(self,screen):
-        x,y = pygame.mouse.get_pos()
-        x_center,y_center = self.rect.center
-        angle = math.atan2(x-x_center,y-y_center)*180/3.14
-        img, rect = self.anim.rotate(angle)
-        screen.blit(img,self.rect) 
-        for bullet in self.friendlyBulltes:
-            bullet.render(screen)
-    
+        screen.blit(self.image,self.rect)
