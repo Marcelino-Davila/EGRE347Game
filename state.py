@@ -53,7 +53,8 @@ class moving(PlayerState):
             self.d = True
         if pressed[keys.K_ESCAPE] and not self.esc:
             self.esc = True
-            MenuState.ScreenOverlay()
+            Menu_State = MenuState()
+            Menu_State.ScreenOverlay()
         if not pressed[keys.K_ESCAPE]:
             self.esc = False
 
