@@ -1,4 +1,4 @@
-from turtle import pos
+#from turtle import pos
 import pygame
 import sys
 import pygame.locals as keys

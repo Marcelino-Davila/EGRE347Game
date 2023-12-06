@@ -29,7 +29,7 @@ baseSoldier = soldierImage()
 
 soldierStats = dict()
 soldierStats["health"] = 10000
-soldierStats["speed"] = 2
+soldierStats["speed"] = 5
 soldierStats["damage"] = 10
 soldierStats["detectRange"] = 300
 soldierStats["accuracy"] = .5 #between 1 and 0 lower is more accurate
@@ -51,7 +51,7 @@ class soldier(Player):
         self.grenadeCD+=1
         self.detectRange.rect.x = self.rect.x-125
         self.detectRange.rect.y = self.rect.y-125
-        #screen.blit(self.detectRange.image,self.detectRange.rect)
+        screen.blit(self.detectRange.image,self.detectRange.rect)
         self.image.render(screen,self.rect.centerx,self.rect.centery,self.rect)
 
     def rocketJump(self,explode):
@@ -74,16 +74,26 @@ class GojiraImage:
 baseGojira = GojiraImage()
 
 GojiraStats = dict()
-GojiraStats["health"] = 200
-GojiraStats["speed"] = 10
-GojiraStats["damage"] = 20
+GojiraStats["health"] = 10000
+GojiraStats["speed"] = 7
+GojiraStats["damage"] = 10
+GojiraStats["detectRange"] = 150
+GojiraStats["accuracy"] = .5 #between 1 and 0 lower is more accurate
 
 class Gojira(Player):
     def __init__(self,x,y):
         super().__init__(x,y,baseGojira,GojiraStats)
         #self.weapon = weapons.rifle()
         self.image = GojiraImage()
-
+        self.detectRange =playerDetection(self.rect.x+125,self.rect.y+125,GojiraStats["detectRange"])
+        self.rocketJump = False
+        self.health = GojiraStats["health"]
+        self.jump = False
+    def render(self,screen):
+        self.detectRange.rect.x = self.rect.x-50
+        self.detectRange.rect.y = self.rect.y-50
+        screen.blit(self.detectRange.image,self.detectRange.rect)
+        self.image.render(screen,self.rect.centerx,self.rect.centery,self.rect)
     def __del__(self):
         return None
         

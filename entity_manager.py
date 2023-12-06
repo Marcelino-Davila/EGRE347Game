@@ -36,7 +36,7 @@ class entityManager:
     def removeEntity(self,entity,entityType):
         if entityType == "Player":
             self.player.remove(entity)
-        elif entityType == "Enemy":
+        elif entityType == "Enemy": 
             self.enemies.remove(entity)
         elif entityType == "AllyBullets":
             self.AllyBullets.remove(entity)
