@@ -51,7 +51,7 @@ class soldier(Player):
         self.grenadeCD+=1
         self.detectRange.rect.x = self.rect.x-125
         self.detectRange.rect.y = self.rect.y-125
-        screen.blit(self.detectRange.image,self.detectRange.rect)
+        #screen.blit(self.detectRange.image,self.detectRange.rect)
         self.image.render(screen,self.rect.centerx,self.rect.centery,self.rect)
 
     def rocketJump(self,explode):
@@ -92,7 +92,7 @@ class Gojira(Player):
     def render(self,screen):
         self.detectRange.rect.x = self.rect.x-50
         self.detectRange.rect.y = self.rect.y-50
-        screen.blit(self.detectRange.image,self.detectRange.rect)
+        #screen.blit(self.detectRange.image,self.detectRange.rect)
         self.image.render(screen,self.rect.centerx,self.rect.centery,self.rect)
     def __del__(self):
         return None
