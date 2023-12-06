@@ -36,13 +36,13 @@ damage_dict = {
 }
 
 fireRate_dict = { # x is a placeholder variable, it holds no value
-    "rifle" : 1,
-    "shotgun" : 1,
-    "pistol" : 1,
-    "lmg" : 1,
-    "cyber-stick" : 1,
-    "heavy machine gun" : 1,
-    "wand" : 1,
+    "rifle" : x,
+    "shotgun" : x,
+    "pistol" : x,
+    "lmg" : x,
+    "cyber-stick" : x,
+    "heavy machine gun" : x,
+    "wand" : x,
 
 }
 
@@ -75,17 +75,15 @@ class Weapon:
         pass
     
     def update(self):
-        count += 1
-        if self.count > self.fireRate:
+        self.count += 1
+        if self.count > fireRate:
             self.canFire = True
 
 class WeaponFactory:
-    def __init__(self):
-        self.shit = 0
     def build(self, player, weapon, damage, image, ammo, fireRate, bulletRange):
         wpn = Weapon(player, weapon, damage, image, ammo, fireRate, bulletRange)
         return wpn
 
 rifle_image = WeaponImage("rifle.png")
 rifle = WeaponFactory()
-rifle.build("player", weapon_list[0], damage_dict["rifle"], rifle_image, ammo_dict["rifle"], fireRate_dict["rifle"], range_dict["rifle"])
+rifle.build(player, weapon_list[0], damage_dict["rifle"], rifle_image, ammo_dict["rifle"], fireRate_dict["rifle"], range_dict["rifle"])

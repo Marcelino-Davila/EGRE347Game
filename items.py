@@ -3,7 +3,11 @@ from actor import Player
 
 pygame.init()
 
-powerup_dict = { # x is a placeholder variable, it holds no value
+items_list = ["meth", "shrooms", "pain-killers", "cocaine", "weed", "adderall"]
+
+stats_list = ["damage", "move_speed", "accuracy", "hp"]
+
+dropChance_dict = { # x is a place holder variable, it holds no value
     "meth" : x,
     "shrooms" : x,
     "pain-killers" : x,
@@ -12,11 +16,10 @@ powerup_dict = { # x is a placeholder variable, it holds no value
     "adderall" : x
 }
 
-stats_list = [damage, move_speed, accuracy, hp]
-
 class ItemImage:
     def __init__(self, image):
         self.image = pygame.image.load(image)
+        return self.image
 
 class PowerUp:
     def __init__(self, player, item, image, dropChance, statChange):
@@ -35,3 +38,6 @@ class ItemFactory:
         pu = PowerUp(player, item, image, dropChance, statChange, statToBeChanged)
         pu.changeStat(statToBeChanged)
         return pu
+
+meth_image = ItemImage("meth.png")
+meth_powerup = ItemFactory(player, items_list[0], meth_image, 
