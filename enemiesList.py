@@ -2,26 +2,26 @@ import pygame
 from actor import actor
 import math
 from anim import Animator
-import actor
 import projectile
-import enemies
+from enemies import baseEnemy
+from enemies import patrolling
+from enemies import alerted
 
-class swat(enemies, actor):
+class swat(actor):
     def __init__(self,x,y,player):
-        #super().__init__(x,y,200,200)
-        #self.rect = pygame.Rect(
-        #    x,y,200,200
-        #)
-        self.image = pygame.Surface((50,50))
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.angle = 0
         self.health = 700
-
-    #def __init__(x, y, width, height):
-    #   super().__init__()
-    #   self.rect = pygame.Rect(
-    #       x,y,width, height
-    #   )
-    #   self.kinem = Kinematics(self)
-
+        self.alert = False
+        self.player = player
+        self.image = baseEnemy.image
+        self.anim = Animator(self.image,x,y)
+        self.friendlyBulltes = []
+        self.state = patrolling(self)
+    
     def render(self,screen):
         screen.blit(self.image, self.rect)
 
@@ -31,15 +31,15 @@ class swat(enemies, actor):
             self.state = new_state
 
     def collisionBullet(self):
-            self.health -= 1
-            if self.health < 0:
-                return True
-            else:
-                return False
+        self.health-=1
+        if self.health < 0:
+            return True
+        else:
+            return False
 
     def update(self):
         self.kinem.updateX()
-        self.kinem.updateY() 
+        self.kinem.updateY()
         self.delgateToState(self.state.update)
 
     def gun(self):
@@ -52,22 +52,21 @@ class swat(enemies, actor):
         else:
             return False
 
-class police(enemies, actor):
+class police(actor):
     def __init__(self,x,y,player):
-        #super().__init__(x,y,200,200)
-        #self.rect = pygame.Rect(
-        #    x,y,200,200
-        #)
-        self.image = pygame.Surface((200,200))
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.angle = 0
         self.health = 100
-
-        #def __init__(x, y, width, height):
-        #   super().__init__()
-        #   self.rect = pygame.Rect(
-        #       x,y,width, height
-        #   )
-        #   self.kinem = Kinematics(self)
-
+        self.alert = False
+        self.player = player
+        self.image = baseEnemy.image
+        self.anim = Animator(self.image,x,y)
+        self.friendlyBulltes = []
+        self.state = patrolling(self)
+    
     def render(self,screen):
         screen.blit(self.image, self.rect)
 
@@ -77,28 +76,28 @@ class police(enemies, actor):
             self.state = new_state
 
     def collisionBullet(self):
-            self.health -= 1
-            if self.health < 0:
-                return True
-            else:
-                return False
+        self.health-=0
+        if self.health < 0:
+            return True
+        else:
+            return False
 
     def update(self):
         self.kinem.updateX()
-        self.kinem.updateY() 
+        self.kinem.updateY()
         self.delgateToState(self.state.update)
 
     def gun(self):
         return projectile.projectile(self.rect.x,self.rect.y,self.angle)
     
     def explode(self):
-        self.health -= 5
+        self.health -= 10
         if self.health < 0:
             return True
         else:
             return False
 
-
+"""
 class redneck(enemies, actor):
     def __init__(self,x,y,player):
         super().__init__(x,y,50,50)
@@ -150,3 +149,23 @@ class scientist(enemies, actor):
 #class scientistProjectile(projectile): 
 #    def __init__(self,x,y,angle):
 #        super().__init__()
+
+picture_width = self.MapImage.get_width()
+
+movePic = 0
+imagecount = math.ceil(width / picture_width) + 1
+
+for i in range(0, imagecount):
+    screen.blit(self.MapImage, (i * picture_width + movePic, 0))
+
+movePic -= 5
+
+if abs(movePic) > picture_width:
+    movePic = 0
+self.parent.rect.x
+
+a = actor.actor()
+print(a.rect.x)
+
+#if self.parent.rect.x > 1024:
+"""
