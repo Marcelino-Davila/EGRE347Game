@@ -1,7 +1,14 @@
 import pygame as pg
+import PlayerClass
+import enemies
+import actor
+import LevelManager
+import json
 
 class entityManager:
     def __init__(self):
+        self.enemyCount = 0
+        self.PlayerDead = False
         self.player = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.AllyBullets = pg.sprite.Group()
@@ -11,6 +18,7 @@ class entityManager:
         self.buttons = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.ClassAbilities = pg.sprite.Group()
+        self.map = pg.sprite.Group()
 
     def addEntity(self,entity,entityType):
         if entityType == "Player":
@@ -30,13 +38,17 @@ class entityManager:
         elif entityType == "Walls":
             self.walls.add(entity)
         elif entityType == "ClassAbility":
-            print("grenade")
             self.ClassAbilities.add(entity)
+        elif entityType == "map":
+            self.map.add(entity)
     
     def removeEntity(self,entity,entityType):
         if entityType == "Player":
+            self.PlayerDead = True
             self.player.remove(entity)
         elif entityType == "Enemy": 
+            self.enemyCount-=1
+            print(self.enemyCount)
             self.enemies.remove(entity)
         elif entityType == "AllyBullets":
             self.AllyBullets.remove(entity)
@@ -51,15 +63,17 @@ class entityManager:
         elif entityType == "Walls":
             self.walls.remove(entity)
         elif entityType == "ClassAbilities":
-            print("Grenade")
-            self.ClassAbilities.remove(entity)
+            self.ClassAbilities.remove(entity)     
 
     def updateAll(self,pause):
         if not pause:
             for entity in self.player:
                 entity.update()
+                entity.processInput(pg.key.get_pressed())
+                bullet = entity.processMouse(pg.mouse.get_pressed())
+                if bullet:
+                    self.addEntity(bullet,"AllyBullets")
                 if entity.ability:
-                    print("grenade")
                     if entity.grenadeCD > 720: 
                         entity.grenadeCD = 0
                         grenade = entity.classAbility()
@@ -93,6 +107,8 @@ class entityManager:
 
     def renderAll(self,screen,pause):
         if not pause:
+            for entity in self.map:
+                entity.render(screen)
             for entity in self.player:
                 entity.render(screen)
             for entity in self.enemies:
@@ -158,5 +174,49 @@ class entityManager:
                         if enemyDead:
                             self.removeEntity(enemies,"Enemy")        
 
-    def loadLevel(self):#takes in all the data from the json file and adds every entity to the entity manager
-        pass
+    def loadLevel(self,levelSelect):#takes in all the data from the json file and adds every entity to the entity manager
+        self.enemyCount = 0
+        print(self.enemyCount)
+        JSONPath = "Levels/Levels.JSON"
+        with open(JSONPath,'r') as JSONFile:
+            LevelDictionary = json.load(JSONFile)
+        for level in LevelDictionary:
+            if level["Name"] == levelSelect:
+                image = level["Image"]
+                playerData = level["Player"]
+                enemyList= level["enemies"]
+                wallData = level["walls"]
+        mapImage = LevelManager.map(pg.image.load(image))
+        self.addEntity(mapImage,"map")
+        if playerData["class"] == "soldier":
+            player = PlayerClass.soldier(playerData["x"],playerData["y"])
+        elif playerData["class"] == "Gojira":
+            player = PlayerClass.Gojira(playerData["x"],playerData["y"])
+        self.addEntity(player,"Player")
+        enemyCount = 0
+        for enemy in enemyList:
+            self.enemyCount+=1
+            print(self.enemyCount)
+            self.addEntity(enemies.enemies(enemyList[enemy]["x"],enemyList[enemy]["x"],player),"Enemy")
+        for wall in wallData:
+            self.addEntity(actor.coliders(wallData[wall]["x"],wallData[wall]["y"],wallData[wall]["width"],wallData[wall]["height"]),"Walls")
+
+    def unloadLevel(self):
+        for entity in self.player:
+            self.player.remove(entity)
+        for entity in self.enemies:
+            self.enemies.remove(entity)
+        for entity in self.AllyBullets:
+            self.AllyBullets.remove(entity)
+        for entity in self.EnemyBullets:
+            self.EnemyBullets.remove(entity)
+        for entity in self.PowerUps:
+            self.PowerUps.remove(entity)
+        for entity in self.Weapons:
+            self.Weapons.remove(entity)
+        for entity in self.walls:
+            self.walls.remove(entity)
+        for entity in self.ClassAbilities:
+            self.ClassAbilities.remove(entity)
+        for entity in self.map:
+            self.map.remove(entity)

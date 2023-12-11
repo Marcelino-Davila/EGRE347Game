@@ -109,7 +109,7 @@ class MenuState:
                     elif self.SettingsButton.collidepoint(MousePosition):
                         print("Settings Button Clicked")
                         self.SettingsSubMenu(height, FPS)
-                
+                    
                     elif self.QuitButton.collidepoint(MousePosition):
                         print("Quit Button Clicked")
                         pygame.quit()
@@ -168,6 +168,7 @@ class MenuState:
                         elif FPS240Button.collidepoint(MousePosition):
                             print("240 FPS Selected")
                             self.FPS = 240
+                        
                         elif self.QuitButton.collidepoint(MousePosition):
                             print("Quit Button Clicked")
                             pygame.quit()

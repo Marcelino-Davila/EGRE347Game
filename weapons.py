@@ -76,7 +76,7 @@ class Weapon:
     
     def update(self):
         self.count += 1
-        if self.count > fireRate:
+        if self.count > self.fireRate:
             self.canFire = True
 
 class Rifle(Weapon):

@@ -1,11 +1,33 @@
 
 [
     {
-        "Name":"TestLevel",
+        "Name":"Level1",
         "Image":"Levels/Images/TestLevel.jpg",
         "Height": 1024,
         "Width": 1024,
-        "wall" : ["make dictionary with walls"] 
+        "Player" : {
+            "class" : "soldier",
+            "x" : 750,
+            "y" : 750
+        },
+        "enemies" : {
+            "enemy1" : {
+                "x" : 200,
+                "y" : 200
+            },
+            "enemy2" : {
+                "x" : 600,
+                "y" : 600
+            }
+        },
+        "walls" : {
+            "1" : {
+                "x" : 100,
+                "y" : 100,
+                "width" : 10,
+                "height" : 200
+            }
+        }
     },
 
     {

@@ -28,7 +28,7 @@ class soldierImage:
 baseSoldier = soldierImage()
 
 soldierStats = dict()
-soldierStats["health"] = 10000
+soldierStats["health"] = 5000
 soldierStats["speed"] = 5
 soldierStats["damage"] = 10
 soldierStats["detectRange"] = 300
