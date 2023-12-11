@@ -48,7 +48,6 @@ class entityManager:
             self.player.remove(entity)
         elif entityType == "Enemy": 
             self.enemyCount-=1
-            print(self.enemyCount)
             self.enemies.remove(entity)
         elif entityType == "AllyBullets":
             self.AllyBullets.remove(entity)
@@ -153,7 +152,6 @@ class entityManager:
                 if pg.sprite.collide_rect(bullets,player):
                     playerDead = player.collisionBullet()
                     if playerDead:
-                        print(playerDead)
                         self.removeEntity(player,"Player")
                     self.removeEntity(bullets,"EnemyBullets")
         for player in self.player:
@@ -177,7 +175,6 @@ class entityManager:
 
     def loadLevel(self,levelSelect):#takes in all the data from the json file and adds every entity to the entity manager
         self.enemyCount = 0
-        print(self.enemyCount)
         JSONPath = "Levels/Levels.JSON"
         with open(JSONPath,'r') as JSONFile:
             LevelDictionary = json.load(JSONFile)
@@ -197,8 +194,13 @@ class entityManager:
         enemyCount = 0
         for enemy in enemyList:
             self.enemyCount+=1
-            print(self.enemyCount)
-            self.addEntity(enemies.enemies(enemyList[enemy]["x"],enemyList[enemy]["x"],player),"Enemy")
+            enemyx = enemyList[enemy]["x"]
+            enemyy = enemyList[enemy] ["y"]
+            patroll = []
+            for targetpoint in enemyList[enemy]["Patroll"]:
+                target = enemyList[enemy]["Patroll"][targetpoint]
+                patroll.append(target)
+            self.addEntity(enemies.enemies(enemyx,enemyy,player,patroll),"Enemy")
         for wall in wallData:
             self.addEntity(actor.coliders(wallData[wall]["x"],wallData[wall]["y"],wallData[wall]["width"],wallData[wall]["height"]),"Walls")
 
