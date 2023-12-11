@@ -6,51 +6,15 @@ import projectile
 from enemies import baseEnemy
 from enemies import patrolling
 from enemies import alerted
+from enemies import patrollingRedneck
+from projectile import projectileMilitia
 
-class swat(actor):
+class swat(actor): # change to enemies
     def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
+        super().__init__(x,y,50,50) # everything below this needs to be deleted
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.angle = 0
-        self.health = 700
-        self.alert = False
-        self.player = player
-        self.image = baseEnemy.image
-        self.anim = Animator(self.image,x,y)
-        self.friendlyBulltes = []
-        self.state = patrolling(self)
-    
-    def render(self,screen):
-        screen.blit(self.image, self.rect)
-
-    def delgateToState(self, method, *args):
-        new_state = method(*args)
-        if new_state:
-            self.state = new_state
-
-    def collisionBullet(self):
-        self.health-=1
-        if self.health < 0:
-            return True
-        else:
-            return False
-
-    def update(self):
-        self.kinem.updateX()
-        self.kinem.updateY()
-        self.delgateToState(self.state.update)
-
-    def gun(self):
-        return projectile.projectile(self.rect.x,self.rect.y,self.angle)
-    
-    def explode(self):
-        self.health -= 0
-        if self.health < 0:
-            return True
-        else:
-            return False
 
 class police(actor):
     def __init__(self,x,y,player):
@@ -58,114 +22,86 @@ class police(actor):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.angle = 0
-        self.health = 100
-        self.alert = False
-        self.player = player
-        self.image = baseEnemy.image
-        self.anim = Animator(self.image,x,y)
-        self.friendlyBulltes = []
-        self.state = patrolling(self)
-    
-    def render(self,screen):
-        screen.blit(self.image, self.rect)
 
-    def delgateToState(self, method, *args):
-        new_state = method(*args)
-        if new_state:
-            self.state = new_state
-
-    def collisionBullet(self):
-        self.health-=0
-        if self.health < 0:
-            return True
-        else:
-            return False
-
-    def update(self):
-        self.kinem.updateX()
-        self.kinem.updateY()
-        self.delgateToState(self.state.update)
-
-    def gun(self):
-        return projectile.projectile(self.rect.x,self.rect.y,self.angle)
-    
-    def explode(self):
-        self.health -= 10
-        if self.health < 0:
-            return True
-        else:
-            return False
-
-"""
-class redneck(enemies, actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-        self.image = pygame.Surface((50,50))
-        self.health = 100
-    # rednecks move faster but do not patrol
-
-class militia(enemies, actor):
-   def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-        self.image = pygame.Surface((50,50))
-        self.health = 100
-
-class scientist(enemies, actor):
+class redneck(actor):
     def __init__(self,x,y,player):
         super().__init__(x,y,50,50)
         self.rect = pygame.Rect(
             x,y,50,50
         )
 
-    def update(self):
-        if (self.targetx-2 <= self.parent.rect.x <= self.targetx+2) and (self.targety-2 <= self.parent.rect.y <= self.targety+2):
-            self.changeTarget()
-        self.angle = math.atan2(self.targetx-self.parent.rect.x,self.targety-self.parent.rect.y)
-        self.parent.kinem.vel_y = enemySpeed*math.cos(self.angle)
-        self.parent.kinem.vel_x = enemySpeed*math.sin(self.angle)
-        self.parent.rect.x = self.parent.rect.x + self.parent.kinem.vel_x
-        self.parent.rect.y = self.parent.rect.y + self.parent.kinem.vel_y
-        if self.parent.alert:
-            return alerted(self.parent)
+class militia(actor):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
 
-#class security(enemies, actor):
-#   def __init__(self,x,y,player):
-#        super().__init__(x,y,50,50)
-#        self.rect = pygame.Rect(
-#            x,y,50,50
-#        )
-#   security patrols faster
+class scientist(actor):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
 
-#if (self.jump == True): // code that is meant to kill the player if a scientist throws chemicals at them
-#    self.health = 0     // technically not meant for the enemiesList
+class security(actor):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
 
-#class scientistProjectile(projectile): 
-#    def __init__(self,x,y,angle):
-#        super().__init__()
+enemyHealth = {"enemiesHealth":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
+enemyFireRate = {"enemiesFireRate":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
+enemySpeed = {"enemiesSpeed":[{"swat": 7, "police": 10, "redneck": 7, "militia": 15, "scientist": 7, "security": 7}]}
 
-picture_width = self.MapImage.get_width()
+swatStats = dict()
+swatStats["health"] = 700
+swatStats["fireRate"] = 1
+swatStats["explosionImmune"] = True
+swatStats["explosionHPloss"] = 0
+swatStats["speed"] = 7
+swatStats["bulletResistance"] = 0
 
-movePic = 0
-imagecount = math.ceil(width / picture_width) + 1
+policeStats = dict()
+policeStats["health"] = 100
+policeStats["fireRate"] = 1
+policeStats["explosionImmune"] = False
+policeStats["explosionHPloss"] = 10
+policeStats["speed"] = 10
+policeStats["bulletResistance"] = -1
 
-for i in range(0, imagecount):
-    screen.blit(self.MapImage, (i * picture_width + movePic, 0))
+redneckStats = dict()
+redneckStats["health"] = 25
+redneckStats["fireRate"] = 1
+redneckStats["explosionImmune"] = False
+redneckStats["explosionHPloss"] = 0
+redneckStats["speed"] = 7
+redneckStats["bulletResistance"] = 0
+redneckStats["accuracy"] = 0.1
 
-movePic -= 5
+militiaStats = dict()
+militiaStats["health"] = 75
+militiaStats["fireRate"] = 5
+militiaStats["explosionImmune"] = False
+militiaStats["explosionHPloss"] = 5
+militiaStats["speed"] = 20
+militiaStats["bulletResistance"] = 0
+redneckStats["accuracy"] = 0.7
 
-if abs(movePic) > picture_width:
-    movePic = 0
-self.parent.rect.x
+scientistStats = dict()
+scientistStats["health"] = 100
+scientistStats["chemicalDamage"] = 10
+scientistStats["explosionImmune"] = False
+scientistStats["explosionHPloss"] = 5
+scientistStats["speed"] = 7
+scientistStats["bulletResistance"] = 0
+scientistStats["accuracy"] = 0.7
 
-a = actor.actor()
-print(a.rect.x)
-
-#if self.parent.rect.x > 1024:
-"""
+securityStats = dict()
+securityStats["health"] = 1000
+securityStats["fireRate"] = 5
+securityStats["explosionImmune"] = True
+securityStats["explosionHPloss"] = 0
+securityStats["speed"] = 4
+securityStats["bulletResistance"] = 0
