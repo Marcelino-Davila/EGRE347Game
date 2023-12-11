@@ -3,53 +3,12 @@ from actor import actor
 import math
 from anim import Animator
 import projectile
-from enemies import baseEnemy
-from enemies import patrolling
-from enemies import alerted
-from enemies import patrollingRedneck
+#from enemies import baseEnemy
+#from enemies import patrolling
+#from enemies import alerted
+#from enemies import patrollingRedneck
 from projectile import projectileMilitia
-
-class swat(actor): # change to enemies
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50) # everything below this needs to be deleted
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-
-class police(actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-
-class redneck(actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-
-class militia(actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-
-class scientist(actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
-
-class security(actor):
-    def __init__(self,x,y,player):
-        super().__init__(x,y,50,50)
-        self.rect = pygame.Rect(
-            x,y,50,50
-        )
+import enemies
 
 enemyHealth = {"enemiesHealth":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
 enemyFireRate = {"enemiesFireRate":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
@@ -105,3 +64,57 @@ securityStats["explosionImmune"] = True
 securityStats["explosionHPloss"] = 0
 securityStats["speed"] = 4
 securityStats["bulletResistance"] = 0
+
+class swat(enemies): # change to enemies
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50) # everything below this needs to be deleted
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = swatStats
+
+class police(enemies):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = policeStats
+
+class redneck(enemies):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = redneckStats
+
+class militia(enemies):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = militiaStats
+
+class scientist(enemies):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = scientistStats
+
+class security(enemies):
+    def __init__(self,x,y,player):
+        super().__init__(x,y,50,50)
+        self.rect = pygame.Rect(
+            x,y,50,50
+        )
+        self.parent = dict()
+        self.parent = securityStats
