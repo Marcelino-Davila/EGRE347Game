@@ -3,7 +3,7 @@ import math
 from anim import Animator
 import actor
 
-speed =10
+speed =5
 class projectileImage:
     def __init__(self):
         self.image = pygame.Surface((10,5))

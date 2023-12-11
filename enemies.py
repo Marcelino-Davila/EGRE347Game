@@ -3,6 +3,8 @@ from actor import actor
 from anim import Animator
 import math
 import projectile
+import weapons 
+import random
 
 class enemyImage():
     def __init__(self):
@@ -29,7 +31,9 @@ class enemies(actor):
         self.rect = pygame.Rect(
             x,y,50,50
         )
+        self.weapon = weapons.HeavyMachineGun()
         self.angle = 0
+        self.accuracy = .1
         self.health = 100
         self.alert = False
         self.player = player
@@ -56,10 +60,13 @@ class enemies(actor):
     def update(self):
         self.kinem.updateX()
         self.kinem.updateY()
+        self.weapon.update()
         self.delgateToState(self.state.update)
 
     def gun(self):
-        return projectile.projectile(self.rect.x,self.rect.y,self.angle)
+        recoil = (random.randrange(-100,100)/100)*0.261799*self.accuracy
+        angle = self.angle+ recoil
+        return self.weapon.use(self.rect.x,self.rect.y,angle)
     
     def explode(self):
         self.health-=5

@@ -1,6 +1,6 @@
 import pygame
 from actor import Player
-#import weapons
+import weapons
 import math
 
 class playerDetection:
@@ -40,7 +40,7 @@ class soldier(Player):
         self.grenadeCD = 0
         self.health = soldierStats["health"]
         self.speed = soldierStats["speed"]
-        #self.weapon = weapons.rifle()
+        self.weapon = weapons.Rifle()
         self.image = baseSoldier
         self.detectRange =playerDetection(self.rect.x+125,self.rect.y+125,soldierStats["detectRange"])
         self.WallCollide = True

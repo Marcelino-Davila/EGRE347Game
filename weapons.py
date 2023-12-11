@@ -52,48 +52,31 @@ class WeaponImage:
         return self.image
 
 class Weapon:
-    def __init__(self, player, weapon, damage, image, ammoCount, ammoLoss, fireRate, bulletRange):
-        self.player = player
-        self.weapon = weapon
+    def __init__(self, damage, bulletRange):
         self.damage = damage
-        self.image = image
-        self.ammoCount = ammoCount
-        self.ammoLoss = ammoLoss
-        self.fireRate = fireRate
         self.bulletRange = bulletRange
         self.count = 0
         self.canFire = True
+    
+    def render(self):
+        pass
+
+class Rifle(Weapon):
+    def __init__(self):
+        super().__init__(10,1000)
+        self.fireRate = 12
+        self.count = 0
+        self.canFire = True
+
+    def update(self):
+        self.count += 1
+        if self.count > self.fireRate:
+            self.canFire = True
 
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
             self.count = 0
-            return True, projectile(x, y, angle)
-        return False
-    
-    def render(self):
-        pass
-    
-    def update(self):
-        self.count += 1
-        if self.count > self.fireRate:
-            self.canFire = True
-
-class Rifle(Weapon):
-    def __init__(self):
-        super().__init__()
-        self.fireRate = 10
-        self.count = 0
-        self.canFire = True
-
-    def update(self):
-        self.count += 1
-        if self.count > self.fireRate:
-            self.canFire = True
-
-    def use(self, x, y, angle):
-        if self.canFire:
-            self.canFire = False
             return projectile(x, y, angle)
 
 
@@ -168,8 +151,8 @@ class Stick(Weapon):
 
 class HeavyMachineGun(Weapon):
     def __init__(self):
-        super().__init__()
-        self.fireRate = 10
+        super().__init__(10,1000)
+        self.fireRate = 30
         self.count = 0
         self.canFire = True
 
@@ -181,6 +164,7 @@ class HeavyMachineGun(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
+            self.count = 0
             return projectile(x, y, angle)
 
 class Wand(Weapon):

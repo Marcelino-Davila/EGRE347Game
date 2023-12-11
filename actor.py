@@ -61,6 +61,7 @@ class Player(actor):
     def update(self):
         self.kinem.updateX()
         self.kinem.updateY()
+        self.weapon.update()
         self.delgateToState(self.state.update)
         self.classAbility()
 
@@ -70,7 +71,7 @@ class Player(actor):
             x_mouse, y_mouse = pygame.mouse.get_pos()
             recoil = (random.randrange(-100,100)/100)*0.261799*self.accuracy
             angle = math.atan2(x_mouse-self.rect.x+25,y_mouse-self.rect.y+25) + recoil
-            return projectile(self.rect.x,self.rect.y,angle)
+            return self.weapon.use(self.rect.x,self.rect.y,angle)
         
     def collisionBullet(self):
         self.health-=1

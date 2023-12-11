@@ -47,15 +47,16 @@ class Game:
         
         while True:
             if self.entityManager.enemyCount <= 0 or self.entityManager.PlayerDead:
-                self.MainMenuReturn = True
-                self.entityManager.unloadLevel()
-                self.Menu_State.MainMenu(width, height, self.FPS)
+                #self.MainMenuReturn = True
+                #self.entityManager.unloadLevel()
+                #self.Menu_State.MainMenu(width, height, self.FPS)
+                pass
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
             if self.MainMenuReturn:
                 self.MainMenuReturn = False
-                self.entityManager.loadLevel("Level2")
+                self.entityManager.loadLevel("Level1")
                 
 
             self.screen.blit(self.MapImage, (0, 0))

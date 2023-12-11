@@ -82,7 +82,8 @@ class entityManager:
                 entity.update()
                 if entity.alert:
                     bullet = entity.gun()
-                    self.addEntity(bullet,"EnemyBullets")
+                    if bullet:
+                        self.addEntity(bullet,"EnemyBullets")
             for entity in self.AllyBullets:
                 entity.update()
                 if entity.delete:
