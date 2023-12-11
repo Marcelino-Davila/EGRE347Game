@@ -3,18 +3,18 @@ from actor import Player
 
 pygame.init()
 
-items_list = ["meth", "shrooms", "pain-killers", "cocaine", "weed", "adderall"]
-
-stats_list = ["damage", "move_speed", "accuracy", "hp"]
-
-dropChance_dict = { # x is a place holder variable, it holds no value
-    "meth" : x,
-    "shrooms" : x,
-    "pain-killers" : x,
-    "cocaine" : x,
-    "weed" : x,
-    "adderall" : x
-}
+# items_list = ["meth", "shrooms", "pain-killers", "cocaine", "weed", "adderall"]
+#
+# stats_list = ["damage", "move_speed", "accuracy", "hp"]
+#
+# dropChance_dict = { # x is a place holder variable, it holds no value
+#     "meth" : x,
+#     "shrooms" : x,
+#     "pain-killers" : x,
+#     "cocaine" : x,
+#     "weed" : x,
+#     "adderall" : x
+# }
 
 class ItemImage:
     def __init__(self, image):
@@ -31,13 +31,56 @@ class PowerUp:
         # self.statToBeChanged = statToBeChanged
     
     def changeStat(self, statToBeChanged):
-        return self.player.statToBeChanged += self.statChange 
+        return self.player.statToBeChanged += self.statChange
 
-class ItemFactory:
-    def build(self, player, item, image, dropChance, statChange, statToBeChanged):
-        pu = PowerUp(player, item, image, dropChance, statChange, statToBeChanged)
-        pu.changeStat(statToBeChanged)
-        return pu
+class Meth(PowerUp):
+    def __init__(self):
+        super().__init__()
 
-meth_image = ItemImage("meth.png")
-meth_powerup = ItemFactory(player, items_list[0], meth_image, 
+    def changeStat(self):
+        pass
+
+class Shrooms(PowerUp):
+    def __init__(self):
+        super().__init__()
+
+    def changeStat(self):
+        pass
+
+class PainKillers(PowerUp):
+    def __init__(self):
+        super().__init__()
+
+    def changeStat(self):
+        pass
+
+class Cocaine(PowerUp):
+    def __init__(self):
+        super().__init__()
+
+    def changeStat(self):
+        pass 
+
+class Weed(PowerUp):
+    def __init__(self):
+        super().__init__()
+
+    def changeStat(self):
+        pass 
+
+class Adderall(PowerUp):
+    def __init__(self):
+        super().__init__()
+
+    def changeStat(self):
+        pass 
+
+
+#class ItemFactory:
+#     def build(self, player, item, image, dropChance, statChange):
+#         pu = PowerUp(player, item, image, dropChance, statChange)
+#         pu.changeStat(statToBeChanged)
+#         return pu
+#
+# item_image = ItemImage("item.png")
+# item_powerup = ItemFactory(player, items_list[0], meth_image, dropChance_dict["item_name"], 30) 
