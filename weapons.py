@@ -77,12 +77,12 @@ class Rifle(Weapon):
         if self.canFire:
             self.canFire = False
             self.count = 0
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 
 class Shotgun(Weapon):
     def __init__(self):
-        super().__init__()
+        super().__init__(7, 500)
         self.fireRate = 10
         self.count = 0
         self.canFire = True
@@ -95,12 +95,12 @@ class Shotgun(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 
 class Pistol(Weapon):
     def __init__(self):
-        super().__init__()
+        super().__init__(5, 500)
         self.fireRate = 10
         self.count = 0
         self.canFire = True
@@ -113,11 +113,11 @@ class Pistol(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 class LMG(Weapon):
     def __init__(self):
-        super().__init__()
+        super().__init__(6, 1500)
         self.fireRate = 10
         self.count = 0
         self.canFire = True
@@ -130,11 +130,11 @@ class LMG(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 class Stick(Weapon):
     def __init__(self):
-        super().__init__()
+        super().__init__(100, 10)
         self.fireRate = 10
         self.count = 0
         self.canFire = True
@@ -147,7 +147,7 @@ class Stick(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 class HeavyMachineGun(Weapon):
     def __init__(self):
@@ -165,11 +165,11 @@ class HeavyMachineGun(Weapon):
         if self.canFire:
             self.canFire = False
             self.count = 0
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 class Wand(Weapon):
     def __init__(self):
-        super().__init__()
+        super().__init__(100, 50)
         self.fireRate = 10
         self.count = 0
         self.canFire = True
@@ -182,7 +182,7 @@ class Wand(Weapon):
     def use(self, x, y, angle):
         if self.canFire:
             self.canFire = False
-            return projectile(x, y, angle)
+            return projectile(x, y, angle, self.damage, self.bulletRange)
 
 # class WeaponFactory:
 #     def build(self, player, weapon, damage, image, ammo, fireRate, bulletRange):
