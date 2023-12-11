@@ -61,11 +61,6 @@ class MenuState:
             pygame.display.update()
 
             for event in pygame.event.get():
-                #MousePosition = pygame.mouse.get_pos()
-                #if self.SettingsButton.collidepoint(MousePosition):
-                    #pygame.draw.rect(MenuOverlay, (52,52,52), self.SettingsButton)
-
-                
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     MousePosition = pygame.mouse.get_pos()
 
@@ -85,12 +80,11 @@ class MenuState:
                 
 
     def MainMenu(self, width, height, FPS):
-        StartScreenImage = pygame.image.load('Levels/Images/StartScreen.jpeg')
-        
+        StartScreenImage = pygame.image.load('Levels/Images/StartScreen.jpg')
+
         pygame.draw.rect(self.MenuOverlay, (0,0,0), self.StartButton)
 
         while True:
-            #self.Screen.blit(StartScreenImage, (0,0))
             self.Screen.blit(self.MenuOverlay, (0,0))
             self.Screen.blit(StartScreenImage, (0,0))
             self.Screen.blit(self.StartText, (0,(height - (height - 10))))
@@ -108,8 +102,9 @@ class MenuState:
 
                     elif self.SettingsButton.collidepoint(MousePosition):
                         print("Settings Button Clicked")
+                        
                         self.SettingsSubMenu(height, FPS)
-                    
+                
                     elif self.QuitButton.collidepoint(MousePosition):
                         print("Quit Button Clicked")
                         pygame.quit()
@@ -168,7 +163,6 @@ class MenuState:
                         elif FPS240Button.collidepoint(MousePosition):
                             print("240 FPS Selected")
                             self.FPS = 240
-                        
                         elif self.QuitButton.collidepoint(MousePosition):
                             print("Quit Button Clicked")
                             pygame.quit()
