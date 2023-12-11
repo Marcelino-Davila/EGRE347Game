@@ -1,11 +1,14 @@
 import pygame
+import pygame.locals as keys
 from entity_manager import entityManager
 import PlayerClass
 import enemies
 import actor
 from LevelManager import MapInformation
 import math
+import LevelManager
 import enemiesList
+from InterfaceManager import MenuState
 
 MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
 
@@ -19,6 +22,11 @@ black = (0,0,0)
 class Game:
     def __init__(self, width, height, MapImagePath):
         pygame.init()
+        
+        self.esc = False
+        self.width = width
+        self.height = height
+
         self.selectedClass=0 #selecting level and class from main menu then run entitnymanager.loadlevel()
         self.selectedLevel=0 
         self.entityManager = entityManager()
@@ -38,18 +46,22 @@ class Game:
         self.entityManager.addEntity(self.enemy,"Enemy")
         self.entityManager.addEntity(self.wall,"Walls")
         self.MapImage = pygame.image.load(MapImagePath)
-
+        self.Menu_State = MenuState(width, height, self.screen, FPS)
+        
 
     def loop(self):
         picture_width = self.MapImage.get_width() #gets what the width of the background is
         movePic = 0
         imagecount = math.ceil(width / picture_width) + 1 #finds the number images to 
-    
+
+        self.Menu_State.MainMenu(width, height, FPS)
+        
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 
+
             self.screen.blit(self.MapImage, (0, 0))
             self.entityManager.renderAll(self.screen,False)#need to know if paused
             self.entityManager.updateAll(False)
@@ -59,6 +71,15 @@ class Game:
             if bullet:
                 self.entityManager.addEntity(bullet,"AllyBullets")
             pygame.display.flip()
+
+            if pygame.key.get_pressed()[pygame.K_ESCAPE] and not self.esc:
+                self.esc = True
+                self.Menu_State.ScreenOverlay(width, height, FPS)
+               #NewFPS = MenuState.ScreenOverlay(FPS)
+                #FPS = NewFPS
+            if not pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                self.esc = False
+            
             self.clock.tick(FPS)
 
             for i in range(0, imagecount): #takes the image and places it on the right continuously
