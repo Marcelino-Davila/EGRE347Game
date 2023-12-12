@@ -7,72 +7,28 @@ import projectile
 #from enemies import patrolling
 #from enemies import alerted
 #from enemies import patrollingRedneck
-#from projectile import projectileMilitia
+from projectile import projectileMilitia
 import enemies
+import sys
 
-enemyHealth = {"enemiesHealth":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
-enemyFireRate = {"enemiesFireRate":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}
-enemySpeed = {"enemiesSpeed":[{"swat": 7, "police": 10, "redneck": 7, "militia": 15, "scientist": 7, "security": 7}]}
+enemyStats = dict()
+enemyStats["Health"] = {"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}
+enemyStats["FireRate"] = {"swat": 1, "police": 2, "redneck": 5, "militia": 2, "scientist": 1, "security": 1}
+enemyStats["Speed"] = {"swat": 7, "police": 10, "redneck": 7, "militia": 15, "scientist": 7, "security": 4}
+enemyStats["bulletResistance"] = {"swat": 0, "police": -1, "redneck": 0, "militia": 0, "scientist": 0, "security": 0}
+enemyStats["explosionImmune"] = {"swat": True, "police": False, "redneck": False, "militia": False, "scientist": False, "security": True}
+enemyStats["exlposionHPloss"] = {"swat": 0, "police": 10, "redneck": 5, "militia": 5, "scientist": 5, "security": 0}
+enemyStats["accuracy"] = {"swat": 0.5, "police": 0.5, "redneck": 0.1, "militia": 0.7, "scientist": 0.7, "security": 0.5}
 
-swatStats = dict()
-swatStats["health"] = 700
-swatStats["fireRate"] = 1
-swatStats["explosionImmune"] = True
-swatStats["explosionHPloss"] = 0
-swatStats["speed"] = 7
-swatStats["bulletResistance"] = 0
-
-policeStats = dict()
-policeStats["health"] = 100
-policeStats["fireRate"] = 1
-policeStats["explosionImmune"] = False
-policeStats["explosionHPloss"] = 10
-policeStats["speed"] = 10
-policeStats["bulletResistance"] = -1
-
-redneckStats = dict()
-redneckStats["health"] = 25
-redneckStats["fireRate"] = 1
-redneckStats["explosionImmune"] = False
-redneckStats["explosionHPloss"] = 0
-redneckStats["speed"] = 7
-redneckStats["bulletResistance"] = 0
-redneckStats["accuracy"] = 0.1
-
-militiaStats = dict()
-militiaStats["health"] = 75
-militiaStats["fireRate"] = 5
-militiaStats["explosionImmune"] = False
-militiaStats["explosionHPloss"] = 5
-militiaStats["speed"] = 20
-militiaStats["bulletResistance"] = 0
-redneckStats["accuracy"] = 0.7
-
-scientistStats = dict()
-scientistStats["health"] = 100
-scientistStats["chemicalDamage"] = 10
-scientistStats["explosionImmune"] = False
-scientistStats["explosionHPloss"] = 5
-scientistStats["speed"] = 7
-scientistStats["bulletResistance"] = 0
-scientistStats["accuracy"] = 0.7
-
-securityStats = dict()
-securityStats["health"] = 1000
-securityStats["fireRate"] = 5
-securityStats["explosionImmune"] = True
-securityStats["explosionHPloss"] = 0
-securityStats["speed"] = 4
-securityStats["bulletResistance"] = 0
-
+"""
 class swat(enemies): # change to enemies
     def __init__(self,x,y,player):
         super().__init__(x,y,50,50) # everything below this needs to be deleted
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = swatStats
+        #self.parent = dict()
+        #self.parent = swatStats
 
 class police(enemies):
     def __init__(self,x,y,player):
@@ -80,8 +36,8 @@ class police(enemies):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = policeStats
+        #self.parent = dict()
+        #self.parent = policeStats
 
 class redneck(enemies):
     def __init__(self,x,y,player):
@@ -89,8 +45,8 @@ class redneck(enemies):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = redneckStats
+        #self.parent = dict()
+        #self.parent = redneckStats
 
 class militia(enemies):
     def __init__(self,x,y,player):
@@ -98,8 +54,8 @@ class militia(enemies):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = militiaStats
+        #self.parent = dict()
+        #self.parent = militiaStats
 
 class scientist(enemies):
     def __init__(self,x,y,player):
@@ -107,8 +63,8 @@ class scientist(enemies):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = scientistStats
+        #self.parent = dict()
+        #self.parent = scientistStats
 
 class security(enemies):
     def __init__(self,x,y,player):
@@ -116,5 +72,46 @@ class security(enemies):
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.parent = dict()
-        self.parent = securityStats
+        #self.parent = dict()
+        #self.parent = securityStats
+
+
+class enemyStats:
+    def __init__(self, enemy):
+        self.enemyStatus = enemy
+        self.health = self.enemyStatus["Health"][enemy]
+        self.fireRate = self.enemyStatus["FireRate"][enemy]
+        self.speed = self.enemyStatus["Speed"][enemy]
+        self.bulletResistance = self.enemyStatus["bulletResistance"][enemy]
+        self.explosionImmune = self.enemyStatus["explosionImmune"][enemy]
+        self.accuracy = self.enemyStatus["accuracy"][enemy]
+
+    def Health(self):
+        return self.health
+    
+    def FireRate(self):
+        return self.fireRate
+    
+    def Speed(self):
+        return self.speed
+
+    def BulletResistance(self):
+        if self.bulletResistance < 0:
+            return self.bulletResistance
+        else:
+            return 0
+
+    def ExplosionImmune(self):
+        if self.explosionImmune == 0:
+            return self.explosionImmune
+        else:
+            return False
+    
+    def Accuracy(self):
+        return self.accuracy
+    
+    def update(self):
+        self.health -= 1
+        if self.health < 50:
+            self.fireRate += 1
+"""
