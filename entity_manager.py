@@ -4,6 +4,7 @@ import enemies
 import actor
 import LevelManager
 import json
+import items
 
 class entityManager:
     def __init__(self):
@@ -145,6 +146,7 @@ class entityManager:
                 if pg.sprite.collide_rect(bullets,enemies):
                     enemyDead = enemies.collisionBullet(bullets.damage)
                     if enemyDead:
+                        meth = items.Meth(player)
                         self.removeEntity(enemies,"Enemy")
                     self.removeEntity(bullets,"AllyBullets")
         for player in self.player:

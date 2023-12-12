@@ -17,14 +17,16 @@ pygame.init()
 # }
 
 class ItemImage:
-    def __init__(self, image):
-        self.image = pygame.image.load(image)
-        return self.image
+    def __init__(self):
+        self.image = pygame.Surface((25,25))
+        self.image.fill((200,255,200))
+    
+baseImage = ItemImage()
 
 class PowerUp:
-    def __init__(self, player, image, statChange):
+    def __init__(self, player,statChange):
         self.player = player 
-        self.image = image
+        self.image = baseImage.image
         self.statChange = statChange
         # self.statToBeChanged = statToBeChanged
     
@@ -36,8 +38,8 @@ class PowerUp:
         pass
 
 class Meth(PowerUp):
-    def __init__(self):
-        super().__init__(player, meth_image, 100)
+    def __init__(self,player):
+        super().__init__(player, 100)
 
     def changeStat(self):
         pass
