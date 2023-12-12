@@ -22,20 +22,19 @@ class ItemImage:
         return self.image
 
 class PowerUp:
-    def __init__(self, player, item, image, dropChance, statChange):
+    def __init__(self, player, image, statChange):
         self.player = player 
-        self.item = item 
         self.image = image
-        self.dropChance = dropChance
         self.statChange = statChange
         # self.statToBeChanged = statToBeChanged
     
     def changeStat(self, statToBeChanged):
-        return self.player.statToBeChanged += self.statChange
+        self.player.statToBeChanged += self.statChange
+        return self.player.statToBeChanged
 
 class Meth(PowerUp):
     def __init__(self):
-        super().__init__()
+        super().__init__(player, meth_image, 100)
 
     def changeStat(self):
         pass

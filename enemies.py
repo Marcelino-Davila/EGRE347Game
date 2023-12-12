@@ -5,6 +5,7 @@ import math
 import projectile
 import weapons 
 import random
+import items
 
 class enemyImage():
     def __init__(self):
@@ -19,14 +20,18 @@ class enemyImage():
     
 enemySpeed = 1
 baseEnemy = enemyImage()
+patrollPattern = []
+patrollPattern.append((200,100)) 
+patrollPattern.append((500,100))
+patrollPattern.append((500,600))
+patrollPattern.append((200,600))
 
 class enemies(actor):
-    def __init__(self,x,y,player,patrollPattern):
+    def __init__(self,x,y,player):
         super().__init__(x,y,50,50)
         self.rect = pygame.Rect(
             x,y,50,50
         )
-        self.patrollPattern = patrollPattern
         self.weapon = weapons.HeavyMachineGun()
         self.angle = 0
         self.accuracy = .1
@@ -49,6 +54,8 @@ class enemies(actor):
     def collisionBullet(self):
         self.health-=1
         if self.health < 0:
+            meth = Meth()
+            meth.statChange()
             return True
         else:
             return False
@@ -82,8 +89,8 @@ class enemyState:
 
 class patrolling(enemyState):
     def __init__(self,parent):
-        super().__init__(parent,parent.patrollPattern[0])
-        self.patroll = self.parent.patrollPattern
+        super().__init__(parent,patrollPattern[0])
+        self.patroll = patrollPattern
         self.patrollCount = 0
         self.numPatorl = len(self.patroll)
         self.target = self.patroll[self.patrollCount]
