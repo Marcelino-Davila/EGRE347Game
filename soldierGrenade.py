@@ -30,6 +30,7 @@ baseExplode = explodeImage()
 class grenade(pygame.sprite.Sprite):
     def __init__(self,parent,x,y):
         super().__init__()
+        self.ability = "grenade"
         mx,my = pygame.mouse.get_pos()
         self.targetx =mx-10
         self.targety =my-10

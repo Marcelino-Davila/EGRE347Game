@@ -74,10 +74,9 @@ class entityManager:
                 if bullet:
                     self.addEntity(bullet,"AllyBullets")
                 if entity.ability:
-                    if entity.grenadeCD > 720: 
-                        entity.grenadeCD = 0
-                        grenade = entity.classAbility()
-                        self.addEntity(grenade,"ClassAbility")
+                    ability = entity.classAbility()
+                    if ability:
+                        self.addEntity(ability,"ClassAbility")
             for entity in self.enemies:
                 entity.update()
                 if entity.alert:
@@ -165,7 +164,7 @@ class entityManager:
         for abilities in self.ClassAbilities:
             for player in self.player:
                 if abilities.explode:
-                    if pg.sprite.collide_rect(abilities,player):
+                    if pg.sprite.collide_rect(abilities,player) and abilities.ability == "grenade":
                         player.rocketJump((abilities.rect.x,abilities.rect.x))
         for abilities in self.ClassAbilities:
             for enemies in self.enemies:

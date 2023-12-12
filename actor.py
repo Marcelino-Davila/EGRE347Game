@@ -79,9 +79,7 @@ class Player(actor):
             return True
         else:
             return False
-    
-    def classAbility(self):
-        return soldierGrenade.grenade(self,self.rect.x,self.rect.y)  
+     
 
 class coliders(pygame.sprite.Sprite):
     def __init__(self,x=0,y=0,width=0,height=0):

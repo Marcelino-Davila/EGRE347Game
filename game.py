@@ -56,7 +56,7 @@ class Game:
                     return
             if self.MainMenuReturn:
                 self.MainMenuReturn = False
-                self.entityManager.loadLevel("Level1")
+                self.entityManager.loadLevel("Level2")
                 
 
             self.screen.blit(self.MapImage, (0, 0))
