@@ -121,52 +121,34 @@ class PowerUp:
 # adderallImage = AdderallImage()
 
 class Meth(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__(player, 100)
         self.image = MethImage() 
 
-    def changeStat(self):
-        pass
-
 class Shrooms(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__(player, 50)
         self.image = ShroomImage() 
 
-    def changeStat(self):
-        pass
-
 class PainKillers(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__()
         self.image = PainKillerImage() 
 
-    def changeStat(self):
-        pass
-
 class Cocaine(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__()
         self.image = CokeImage()
 
-    def changeStat(self):
-        pass 
-
 class Weed(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__()
         self.image = WeedImage()
 
-    def changeStat(self):
-        pass 
-
 class Adderall(PowerUp):
-    def __init__(self):
+    def __init__(self, player):
         super().__init__()
         self.image = AdderallImage()
-
-    def changeStat(self):
-        pass 
 
 
 #class ItemFactory:
