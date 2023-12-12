@@ -46,10 +46,111 @@ pygame.init()
 #
 # }
 
-class WeaponImage:
-    def __init__(self, image):
-        self.image = pygame.image.load(image)
-        return self.image
+class RifleImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class ShotgunImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class PistolImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class LMGImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class StickImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class HeavyMachineGunImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class WandImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+# rifleImage = RifleImage()
+# shotgunImage = ShotgunImage()
+# pistolImage = PistolImage()
+# lmgImage = LMGImage()
+# stickImage = StickImage()
+# heavymachineImage = HeavyMachineGunImage()
+# wandImage = WandImage()
 
 class Weapon:
     def __init__(self, damage, bulletRange):
@@ -67,6 +168,7 @@ class Rifle(Weapon):
         self.fireRate = 12
         self.count = 0
         self.canFire = True
+        self.image = RifleImage()
 
     def update(self):
         self.count += 1
@@ -86,6 +188,7 @@ class Shotgun(Weapon):
         self.fireRate = 10
         self.count = 0
         self.canFire = True
+        self.image = ShotgunImage()
 
     def update(self):
         self.count += 1
@@ -104,6 +207,7 @@ class Pistol(Weapon):
         self.fireRate = 10
         self.count = 0
         self.canFire = True
+        self.image = PistolImage()
 
     def update(self):
         self.count += 1
@@ -121,6 +225,7 @@ class LMG(Weapon):
         self.fireRate = 10
         self.count = 0
         self.canFire = True
+        self.image = LMGImage()
 
     def update(self):
         self.count += 1
@@ -138,6 +243,7 @@ class Stick(Weapon):
         self.fireRate = 10
         self.count = 0
         self.canFire = True
+        self.image = StickImage()
 
     def update(self):
         self.count += 1
@@ -155,6 +261,7 @@ class HeavyMachineGun(Weapon):
         self.fireRate = 30
         self.count = 0
         self.canFire = True
+        self.image = HeavyMachineGunImage()
 
     def update(self):
         self.count += 1
@@ -173,6 +280,7 @@ class Wand(Weapon):
         self.fireRate = 10
         self.count = 0
         self.canFire = True
+        self.image = WandImage()
 
     def update(self):
         self.count += 1

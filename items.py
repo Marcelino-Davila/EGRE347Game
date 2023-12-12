@@ -16,17 +16,93 @@ pygame.init()
 #     "adderall" : x
 # }
 
-class ItemImage:
+class MethImage:
     def __init__(self):
-        self.image = pygame.Surface((25,25))
-        self.image.fill((200,255,200))
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
     
-baseImage = ItemImage()
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class ShroomImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+    
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class PainKillerImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+    
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class CokeImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+    
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class WeedImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+    
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
+
+class AdderallImage:
+    def __init__(self):
+        self.image = pygame.Surface((50,50))
+        self.image.fill((0,255,0))
+        self.image.set_colorkey((0,0,0))
+        self.width = 50
+        self.height = 50
+        self.detectRangeI = pygame.Surface((200,200))
+    
+    def render(self,screen,x_center,y_center,rect):
+        x,y = pygame.mouse.get_pos()
+        angle = math.atan2(x-x_center,y-y_center)*180/3.14
+        screen.blit(pygame.transform.rotate(self.image,angle),rect)
 
 class PowerUp:
-    def __init__(self, player,statChange):
+    def __init__(self, player, statChange):
         self.player = player 
-        self.image = baseImage.image
         self.statChange = statChange
         # self.statToBeChanged = statToBeChanged
     
@@ -37,16 +113,25 @@ class PowerUp:
     def render(self):
         pass
 
+# methImage = MethImage()
+# shroomImage = ShroomImage()
+# painkillerImage = PainKillerImage()
+# cokeImage = CokeImage()
+# weedImage = WeedImage()
+# adderallImage = AdderallImage()
+
 class Meth(PowerUp):
-    def __init__(self,player):
+    def __init__(self):
         super().__init__(player, 100)
+        self.image = MethImage() 
 
     def changeStat(self):
         pass
 
 class Shrooms(PowerUp):
     def __init__(self):
-        super().__init__()
+        super().__init__(player, 50)
+        self.image = ShroomImage() 
 
     def changeStat(self):
         pass
@@ -54,6 +139,7 @@ class Shrooms(PowerUp):
 class PainKillers(PowerUp):
     def __init__(self):
         super().__init__()
+        self.image = PainKillerImage() 
 
     def changeStat(self):
         pass
@@ -61,6 +147,7 @@ class PainKillers(PowerUp):
 class Cocaine(PowerUp):
     def __init__(self):
         super().__init__()
+        self.image = CokeImage()
 
     def changeStat(self):
         pass 
@@ -68,6 +155,7 @@ class Cocaine(PowerUp):
 class Weed(PowerUp):
     def __init__(self):
         super().__init__()
+        self.image = WeedImage()
 
     def changeStat(self):
         pass 
@@ -75,6 +163,7 @@ class Weed(PowerUp):
 class Adderall(PowerUp):
     def __init__(self):
         super().__init__()
+        self.image = AdderallImage()
 
     def changeStat(self):
         pass 
