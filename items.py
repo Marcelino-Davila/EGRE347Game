@@ -32,6 +32,9 @@ class PowerUp:
         self.player.statToBeChanged += self.statChange
         return self.player.statToBeChanged
 
+    def render(self):
+        pass
+
 class Meth(PowerUp):
     def __init__(self):
         super().__init__(player, meth_image, 100)
