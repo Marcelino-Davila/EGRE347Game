@@ -8,7 +8,6 @@ def MapInformation():
 
     with open(JSONPath,'r') as JSONFile:
         LevelDictionary = json.load(JSONFile)
-
     
     LevelSelection = "Level1"
     
@@ -24,7 +23,7 @@ def MapInformation():
            
            MapWidth = Level["Width"]
         
-        return MapName, MapImagePath, MapHeight, MapWidth
+        return MapImagePath, MapHeight, MapWidth
 
 class map(pygame.sprite.Sprite):
     def __init__(self,image):

@@ -10,7 +10,8 @@ import LevelManager
 #import enemiesList
 from InterfaceManager import MenuState
 
-MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
+MapImagePath, MapHeight, MapWidth = MapInformation()
+
 width = MapWidth
 height = MapHeight
 
@@ -26,7 +27,7 @@ class Game:
         self.FPS = 240
         self.MainMenuReturn = True
         self.selectedClass=0 #selecting level and class from main menu then run entitnymanager.loadlevel()
-        self.selectedLevel=0 
+        self.selectedLevel=0
         self.entityManager = entityManager()
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((width,height))
@@ -35,7 +36,9 @@ class Game:
             pygame.KEYDOWN
         ])
         self.MapImage = pygame.image.load(MapImagePath)
-        self.Menu_State = MenuState(width, height, self.screen, self.FPS)
+        self.Menu_State = MenuState(width, height, self.screen)
+
+        
         
 
     def loop(self):
@@ -43,20 +46,25 @@ class Game:
         movePic = 0
         imagecount = math.ceil(width / picture_width) + 1 #finds the number images to 
 
-        self.Menu_State.MainMenu(width, height, self.FPS)
-        
+        #self.Menu_State.MainMenu(width, height, self.FPS)
+        self.selectedLevel, self.FPS = self.Menu_State.MainMenu(width, height)
+        print("Main Loop Level Selection")
+        print(self.selectedLevel)
+
+        print("Main Loop FPS Selection")
+        print(self.FPS)
         while True:
             if self.entityManager.enemyCount <= 0 or self.entityManager.PlayerDead:
                 self.MainMenuReturn = True
                 self.entityManager.unloadLevel()
-                self.Menu_State.MainMenu(width, height, self.FPS)
+                self.Menu_State.MainMenu(width, height)
                 pass
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
             if self.MainMenuReturn:
                 self.MainMenuReturn = False
-                self.entityManager.loadLevel("Level2")
+                self.entityManager.loadLevel("Level1")
                 
 
             self.screen.blit(self.MapImage, (0, 0))
@@ -71,7 +79,7 @@ class Game:
 
             if pygame.key.get_pressed()[pygame.K_ESCAPE] and not self.esc:
                 self.esc = True
-                self.Menu_State.ScreenOverlay(width, height, self.FPS)
+                self.FPS = self.Menu_State.ScreenOverlay(width, height)
                #NewFPS = MenuState.ScreenOverlay(FPS)
                 #FPS = NewFPS
             if not pygame.key.get_pressed()[pygame.K_ESCAPE]:

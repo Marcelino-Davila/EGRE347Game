@@ -7,11 +7,13 @@ White = (255, 255, 255)
 
 
 class MenuState:
-    def __init__(self, width, height, screen, FPS):
-        #self.FPS = FPS
+    def __init__(self, width, height, screen):
+
         self.width = width
         self.height = height
         self.Screen = screen
+        self.Level = "0"
+        self.FPS = 240
 
         self.Font = pygame.font.Font('MenuFont.ttf',120)
         self.SubFont = pygame.font.Font('MenuFont.ttf',75)
@@ -27,7 +29,7 @@ class MenuState:
         self.FPSUnderline = self.SubFont.render('___', True, White)
 
         self.QuitText = self.SubFont.render('Quit', True, White)
-        self.QuitButton = pygame.Rect(0,(height - (height - 400)), 170, 77)
+        self.QuitButton = pygame.Rect(0,(height - (height - 550)), 170, 77)
 
         self.OverlayRectangle = pygame.Rect(0,0,width, height)
 
@@ -38,7 +40,7 @@ class MenuState:
 
 
 
-    def ScreenOverlay(self, width, height, FPS):
+    def ScreenOverlay(self, width, height):
         Alpha = 10
         TitleText = self.Font.render('Menu', True, White)
 
@@ -56,7 +58,7 @@ class MenuState:
             self.Screen.blit(self.MenuOverlay, (0,0))
             self.Screen.blit(TitleText, (0,(height - (height - 10))))
             self.Screen.blit(self.SettingsText, (0, (height - (height - 250))))
-            self.Screen.blit(self.QuitText, (0, (height - (height - 400))))
+            self.Screen.blit(self.QuitText, (0, (height - (height - 550))))
 
             pygame.display.update()
 
@@ -66,7 +68,7 @@ class MenuState:
 
                     if self.SettingsButton.collidepoint(MousePosition):
                         print("Settings Button Clicked")
-                        self.SettingsSubMenu(height, FPS)
+                        self.SettingsSubMenu(height)
                 
                     elif self.QuitButton.collidepoint(MousePosition):
                         print("Quit Button Clicked")
@@ -75,21 +77,31 @@ class MenuState:
 
 
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    return
+                    return self.FPS
             
                 
 
-    def MainMenu(self, width, height, FPS):
-        StartScreenImage = pygame.image.load('Levels/Images/StartScreen.jpg')
+    def MainMenu(self, width, height):
 
+        
+        StartScreenImage = pygame.image.load('Levels/Images/StartScreen.jpg')
         pygame.draw.rect(self.MenuOverlay, (0,0,0), self.StartButton)
+
+        LevelsText = self.SubFont.render('Levels', True, White)
+        LevelsButton = pygame.Rect(0, (height - (height - 400)), 250, 90)
+
+        pygame.draw.rect(self.MenuOverlay, (52,52,52), LevelsButton)
+
+        pygame.draw.rect(self.MenuOverlay, (52,52,52), self.QuitButton)
 
         while True:
             self.Screen.blit(self.MenuOverlay, (0,0))
             self.Screen.blit(StartScreenImage, (0,0))
             self.Screen.blit(self.StartText, (0,(height - (height - 10))))
             self.Screen.blit(self.SettingsText, (0, (height - (height - 250))))
-            self.Screen.blit(self.QuitText, (0, (height - (height - 400))))
+            self.Screen.blit(LevelsText, (0, (height - (height - 400))))
+            self.Screen.blit(self.QuitText, (0, (height - (height - 550))))
+            
 
             pygame.display.update()
 
@@ -98,17 +110,24 @@ class MenuState:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     MousePosition = pygame.mouse.get_pos()
                     if self.StartButton.collidepoint(MousePosition):
-                        return
+                        return self.Level, self.FPS
 
                     elif self.SettingsButton.collidepoint(MousePosition):
                         print("Settings Button Clicked")
                         
-                        self.SettingsSubMenu(height, FPS)
+                        self.SettingsSubMenu(height)
+
+                    elif LevelsButton.collidepoint(MousePosition):
+                        print("Levels Button Clicked")
+                        self.LevelsSubMenu(height)
+
                 
                     elif self.QuitButton.collidepoint(MousePosition):
                         print("Quit Button Clicked")
                         pygame.quit()
                         sys.exit()
+                #print("Main Menu Level Selection:")
+                #print(self.SelectedLevel)
                 
             
         
@@ -117,7 +136,7 @@ class MenuState:
 
 
 
-    def SettingsSubMenu(self, height, FPS):
+    def SettingsSubMenu(self, height):
         FPS30Text = self.SubSubFont.render('30', True, White)
         FPS30Button = pygame.Rect(600, (height - (height - 400)), 55, 50)
         pygame.draw.rect(self.MenuOverlay, (52,52,52), FPS30Button)
@@ -171,4 +190,43 @@ class MenuState:
                     Escape = False
 
             pygame.display.update()
+
+    def LevelsSubMenu(self, height):
+
+        LabText = self.SubSubFont.render('Lab', True, White)
+        LabButton = pygame.Rect(300, (height - (height - 400)), 80, 50)
+        pygame.draw.rect(self.MenuOverlay, (52,52,52), LabButton)
+
+        JungleText = self.SubSubFont.render('Jungle', True, White)
+        JungleButton = pygame.Rect(300, (height - (height - 500)), 180, 50)
+        pygame.draw.rect(self.MenuOverlay, (52,52,52), JungleButton)
+
+        Escape = False
+        while Escape is False:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    Escape = True
+                else:
+                    self.Screen.blit(LabText, (300, (height - (height - 400))))
+                    self.Screen.blit(JungleText, (300, (height - (height - 500))))
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        MousePosition = pygame.mouse.get_pos()
+
+                        if LabButton.collidepoint(MousePosition):
+                            print("Lab Selected")
+                            self.Level = "Level1"
+                        elif JungleButton.collidepoint(MousePosition):
+                            print("Jungle Selected")
+                            self.Level = "Level2"
+                        elif self.QuitButton.collidepoint(MousePosition):
+                            print("Quit Button Clicked")
+                            pygame.quit()
+                            sys.exit()
+
+                    Escape = False
+
+            pygame.display.update()
+
+
+
         
