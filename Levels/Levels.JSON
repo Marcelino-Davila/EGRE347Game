@@ -48,7 +48,7 @@
         "Height": 1024,
         "Width": 1024,
         "Player" : {
-            "class" : "soldier",
+            "class" : "Gojira",
             "x" : 750,
             "y" : 750
         },
