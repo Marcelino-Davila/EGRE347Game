@@ -20,7 +20,7 @@ enemyStats["explosionImmune"] = {"swat": True, "police": False, "redneck": False
 enemyStats["exlposionHPloss"] = {"swat": 0, "police": 10, "redneck": 5, "militia": 5, "scientist": 5, "security": 0}
 enemyStats["accuracy"] = {"swat": 0.5, "police": 0.5, "redneck": 0.1, "militia": 0.7, "scientist": 0.7, "security": 0.5}
 
-"""
+
 class swat(enemies): # change to enemies
     def __init__(self,x,y,player):
         super().__init__(x,y,50,50) # everything below this needs to be deleted
@@ -76,15 +76,16 @@ class security(enemies):
         #self.parent = securityStats
 
 
-class enemyStats:
-    def __init__(self, enemy):
+class enemyStatus:
+    def __init__(self, enemy, enemytype):
         self.enemyStatus = enemy
-        self.health = self.enemyStatus["Health"][enemy]
-        self.fireRate = self.enemyStatus["FireRate"][enemy]
-        self.speed = self.enemyStatus["Speed"][enemy]
-        self.bulletResistance = self.enemyStatus["bulletResistance"][enemy]
-        self.explosionImmune = self.enemyStatus["explosionImmune"][enemy]
-        self.accuracy = self.enemyStatus["accuracy"][enemy]
+        self.health = self.enemyStatus["Health"][enemytype]
+        self.fireRate = self.enemyStatus["FireRate"][enemytype]
+        self.speed = self.enemyStatus["Speed"][enemytype]
+        self.bulletResistance = self.enemyStatus["bulletResistance"][enemytype]
+        self.explosionImmune = self.enemyStatus["explosionImmune"][enemytype]
+        self.explosionHPloss = self.enemyStatus["explosionHPloss"][enemytype]
+        self.accuracy = self.enemyStatus["accuracy"][enemytype]
 
     def Health(self):
         return self.health
@@ -107,6 +108,9 @@ class enemyStats:
         else:
             return False
     
+    def ExplosionHPloss(self):
+        return self.explosionHPloss
+    
     def Accuracy(self):
         return self.accuracy
     
@@ -114,4 +118,3 @@ class enemyStats:
         self.health -= 1
         if self.health < 50:
             self.fireRate += 1
-"""
