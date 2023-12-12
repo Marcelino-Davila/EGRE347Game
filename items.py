@@ -1,5 +1,6 @@
 import pygame
 from actor import Player
+import math
 
 pygame.init()
 
