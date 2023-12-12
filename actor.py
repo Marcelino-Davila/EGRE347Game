@@ -73,8 +73,8 @@ class Player(actor):
             angle = math.atan2(x_mouse-self.rect.x+25,y_mouse-self.rect.y+25) + recoil
             return self.weapon.use(self.rect.x,self.rect.y,angle)
         
-    def collisionBullet(self):
-        self.health-=1
+    def collisionBullet(self,damage):
+        self.health-=damage
         if self.health < 0:
             return True
         else:

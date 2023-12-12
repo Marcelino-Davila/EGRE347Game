@@ -7,7 +7,7 @@ import projectile
 #from enemies import patrolling
 #from enemies import alerted
 #from enemies import patrollingRedneck
-from projectile import projectileMilitia
+#from projectile import projectileMilitia
 import enemies
 
 enemyHealth = {"enemiesHealth":[{"swat": 700, "police": 100, "redneck": 25, "militia": 100, "scientist": 75, "security": 500}]}

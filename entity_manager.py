@@ -143,14 +143,14 @@ class entityManager:
         for enemies in self.enemies:
             for bullets in self.AllyBullets:
                 if pg.sprite.collide_rect(bullets,enemies):
-                    enemyDead = enemies.collisionBullet()
+                    enemyDead = enemies.collisionBullet(bullets.damage)
                     if enemyDead:
                         self.removeEntity(enemies,"Enemy")
                     self.removeEntity(bullets,"AllyBullets")
         for player in self.player:
             for bullets in self.EnemyBullets:
                 if pg.sprite.collide_rect(bullets,player):
-                    playerDead = player.collisionBullet()
+                    playerDead = player.collisionBullet(bullets.damage)
                     if playerDead:
                         self.removeEntity(player,"Player")
                     self.removeEntity(bullets,"EnemyBullets")

@@ -7,7 +7,7 @@ import actor
 from LevelManager import MapInformation
 import math
 import LevelManager
-import enemiesList
+#import enemiesList
 from InterfaceManager import MenuState
 
 MapName, MapImagePath, MapHeight, MapWidth = MapInformation()
@@ -47,9 +47,9 @@ class Game:
         
         while True:
             if self.entityManager.enemyCount <= 0 or self.entityManager.PlayerDead:
-                #self.MainMenuReturn = True
-                #self.entityManager.unloadLevel()
-                #self.Menu_State.MainMenu(width, height, self.FPS)
+                self.MainMenuReturn = True
+                self.entityManager.unloadLevel()
+                self.Menu_State.MainMenu(width, height, self.FPS)
                 pass
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

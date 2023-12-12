@@ -51,8 +51,8 @@ class enemies(actor):
         if new_state:
             self.state = new_state
 
-    def collisionBullet(self):
-        self.health-=1
+    def collisionBullet(self,damage):
+        self.health-=damage
         if self.health < 0:
             meth = items.Meth()
             meth.statChange()
